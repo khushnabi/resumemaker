@@ -1,0 +1,5 @@
+<template>
+    <div>
+        new template
+    </div>
+</template>
