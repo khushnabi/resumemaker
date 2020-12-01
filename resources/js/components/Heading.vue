@@ -5,21 +5,21 @@
 
        <div v-if="expNext">
            Experiance
-           <Experiance :resume_data="resume_data" v-on:expData="experianceData($event)" ></Experiance>
+           <Experiance :notFinalize="notFinalize" :resume_data="resume_data" v-on:expData="experianceData($event)" ></Experiance>
        </div>
        
        <div v-else-if="eduNext">
            Education
-            <Education :resume_data="resume_data" v-on:eduData="geteducationData($event)" ></Education>
+            <Education :notFinalize="notFinalize" :resume_data="resume_data" v-on:eduData="geteducationData($event)" ></Education>
        </div>
        
        <div v-else-if="isSkill">
            Skill
-            <Skill :resume_data="resume_data" v-on:skillData="skillsData($event)" ></Skill>   
+            <Skill :notFinalize="notFinalize" :resume_data="resume_data" v-on:skillData="skillsData($event)" ></Skill>   
        </div>
 
        <div v-else-if="isSummary">
-           <Summary :resume_data="resume_data" v-on:summaryData="getSummary($event)" ></Summary> 
+           <Summary :notFinalize="notFinalize" :resume_data="resume_data" v-on:summaryData="getSummary($event)" ></Summary> 
        </div>
 
        <div v-else-if="final">
@@ -106,7 +106,7 @@
     import Finalize from "./Finalize"
 
     export default {
-        props:['editId'],
+        props:['editId','emptyFormField'],
         token:"",
         components: {
             Experiance,
@@ -117,6 +117,7 @@
         },
         data () {
             return {
+                notFinalize:true,
                 isHeadinSend:false,
                 eduNext:false,
                 isSummary:false,
@@ -135,6 +136,8 @@
                 isAddingRsm:true,
                 summaries:{},
                 summariesData:[],
+                customs:{},
+                customDatas:[],
 
                 formValidate: {
                     profile_img:'',
@@ -193,7 +196,7 @@
         methods: {
 
             getData() {
-                this.$emit("data", [this.formValidate, this.experiance, this.isGetExpData, this.educationData, this.educations, this.skills, this.skillDatas, this.summaries, this.summariesData]);
+                this.$emit("data", [this.formValidate, this.experiance, this.isGetExpData, this.educationData, this.educations, this.skills, this.skillDatas, this.summaries, this.summariesData, this.customs, this.customDatas]);
             },
 
             handleSubmit (name) {
@@ -209,6 +212,7 @@
                                 this.expNext = true;
                                 this.isAddingRsm=false;
                                 this.isHeadinSend=false
+                                this.$refs[name].resetFields();
                                
                             } else {
                                 this.$Message.error('Fail!');
@@ -223,6 +227,7 @@
                                 this.expNext = true;
                                 this.isAddingRsm = false;
                                 this.isHeadinSend = false
+                                this.$refs[name].resetFields();
                             } else {
                                 this.$Message.error('Fail!');
                             }
@@ -238,6 +243,7 @@
             },
 
             experianceData(expData) {
+                
                 this.experiance = expData[0]
 
                 this.expNext = expData[1]
@@ -275,15 +281,11 @@
                 this.eduNext = skillData[3];
                 this.isSkill = skillData[4];
                 this.isSummary = skillData[5];
-                console.log(this.isSummary)
                 this.getData()
             },
 
             getSummary(summaryData) {
-                console.log("hellow from get summary")
-                console.log(summaryData)
                  this.summaries = summaryData[0];
-                 console.log(this.summaries)
                 this.summariesData = summaryData[1];
                 this.expNext = summaryData[2];
                 this.eduNext = summaryData[3];
@@ -294,13 +296,29 @@
             },
 
             getFinal(finalData) {
-                this.final = finalData[0]
+                this.experiance = finalData[0]
+                this.isGetExpData=finalData[1]
+                this.educationData=finalData[2]
+                this.educations = finalData[3]
+                this.skills = finalData[4]
+                this.skillDatas = finalData[5]
+                this.summaries = finalData[6]
+                this.summariesData = finalData[7]
+               
+                this.customs = finalData[8]
+
+                this.customDatas = finalData[9]
+                console.log("hellow from heading custom data")
+                console.log(this.customs)
+                console.log(this.customDatas)
+                 this.getData()
             },
+
 
            async getSingle(id) {
                if(id !== null) {
                    this.updateId = id;
-                 await this.getResume(this.updateId);  
+                   await this.getResume(this.updateId);  
                } else {
                    console.log("these si not id")
                }
@@ -340,8 +358,13 @@
 
             async getResume(id) {
                 const res = await this.resumeApi('get', '/resume/'+id+'');
-             
                 this.formValidate = res.data;
+
+                this.summariesData = res.data.summaries;
+                this.isGetExpData = res.data.experiences;
+                this.educationData = res.data.educations
+                this.skillDatas = res.data.skills;
+                this.summaryData = res.data.summaries
                 this.getData()
             }
         }

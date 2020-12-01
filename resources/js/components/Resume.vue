@@ -5,10 +5,12 @@
                     <Icon @click="onClose()" type="md-close" />
                 </div>
                 <div class="forms">
-                        <Heading :editId="editId" v-on:data="getData($event)"></Heading>
+                    <Heading
+                    :editId="editId" :emptyFormField="emptyFormField"
+                    v-on:data="getData($event)"></Heading>
                 </div>
-                <div v-if="templet1" class="datas">
-                    <ShowResume :resumeContent='resumeContent' :expContent='expContent'  :isGetExpData="isGetExpData" :educations="educations" :educationData="educationData" :skills="skills" :skillDatas="skillDatas" :summaries="summaries" :summariesData="summariesData"></ShowResume>   
+                <div v-if="template1" class="datas">
+                    <ShowResume :resumeContent='resumeContent' :expContent='expContent' :isGetExpData="isGetExpData" :educations="educations" :educationData="educationData" :skills="skills" :skillDatas="skillDatas" :summaries="summaries" :summariesData="summariesData" :editId="editId" :customs="customs" :customDatas="customDatas" v-on:template="getTemplate($event)"></ShowResume>   
                 </div>
             </div>
 
@@ -70,11 +72,7 @@
     </div>
 </template>
 
-
-
 <script>
-
-
 
 import Heading from './Heading';
 import ShowResume from "./showResume";
@@ -86,7 +84,8 @@ export default {
     },
     data () {
         return {
-            templet1:false,
+            emptyFormField:false,
+            template1:false,
             showTemplete:false,
             isGetExpData:[],
             summaries:{},
@@ -102,16 +101,18 @@ export default {
             resumeContent:{},
             expContent:{},
             skills:{},
-            skillDatas:[]
+            skillDatas:[],
+            customs:{},
+            customDatas:[],
         }
    
     },
    async mounted() {
-       await this.getResumeData();
+        await this.getResumeData();
+      
     },
     methods: {
         getData(obj) {
-            console.log(obj[0])
            this.resumeContent = obj[0];
            this.expContent = obj[1]
            this.isGetExpData=obj[2]
@@ -119,11 +120,10 @@ export default {
            this.educations = obj[4]
            this.skills = obj[5]
            this.skillDatas = obj[6]
-           console.log('hillow from resume data');
            this.summaries = obj[7]
-           console.log(this.summaries)
            this.summariesData = obj[8]
-           console.log(this.summariesData)
+           this.customs = obj[9]
+           this.customDatas = obj[10]
 
         },
         onCreate() {
@@ -131,10 +131,23 @@ export default {
             this.isCreating = false
         },
 
-        onClose() {
+      async onClose() {
+            this.resumeContent = {};
+           this.expContent = {}
+           this.isGetExpData=[]
+           this.educationData=[]
+           this.educations = {}
+           this.skills = {}
+           this.skillDatas = []
+           this.summaries ={}
+           this.summariesData = []
+            this.customs = {}
+           this.customDatas = []
+
               this.isCreating=false;
               this.showTemplete = false
               this.editId = null;
+               await this.getResumeData();
 
         },
      async getResumeData() {
@@ -144,24 +157,29 @@ export default {
 
         onEdit(id) {
             this.editId = id;
-            this.isCreating=true;
+            this.isCreating = true
+            this.template1 = true
+            this.showTemplete = false
         },
 
         isDeleted(resume, index) {
             this.delete_data=resume;
             this.index=index
-            console.log(resume)
             this.isDeletedModel = true
         },
 
         simpleTemplete() {
             this.isCreating = true
-            this.templet1 = true
+            this.template1 = true
             this.showTemplete = false
         },
 
+        getTemplate(template) {
+           this.template1=template
+           
+        },
+
       async onDelete(resume, id, index) {
-          console.log(id);
 
             this.$set(resume, "isDeleting", true)
             const res = await this.resumeApi('post', "resume/"+ id +"/delete", resume)

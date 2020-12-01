@@ -1,9 +1,15 @@
 <template>
     <div>
        <h1>skill</h1>
-       <Button @click="perviousToEdu()" style="margin-left: 8px">pervious to Education</Button>
+      <div>
+           <Button v-if="notFinalize" @click="perviousToEdu()" style="margin-left: 8px">pervious to Education</Button>
+      </div>
 
-            <Form ref="skills" :model="skills" :rules="ruleValidate">
+       <div>
+            <Button type="primary" @click="addSkills()" style="margin-left: 8px">add Skill</Button>
+       </div>
+         <div v-if="addSkill">
+              <Form ref="skills" :model="skills" :rules="ruleValidate">
                 <FormItem label="skill" prop="skill">
                     <Input v-model="skills.skill" @input="getData()" placeholder="skill" />
                 </FormItem>
@@ -18,8 +24,9 @@
 
                 <Button :loading="skillSending" type="primary" @click="handleSubmit('skills')">Next</Button>
             </Form>
+        </div>  
 
-        <Button type="primary"  @click="nextToSummary">next to Summary</Button>
+        <Button v-if="notFinalize" type="primary"  @click="nextToSummary">next to Summary</Button>
     </div>
 </template>
 
@@ -27,7 +34,10 @@
 <script>
     // import Experiance from "./Exxperiance.vue"
     export default {
-        props:['resume_data'],
+         props:{
+            resume_data:Object,
+            notFinalize:Boolean
+            },
     //    components: {
     //        Experiance
     //    },
@@ -39,9 +49,10 @@
                 expNext:false,
                 isSummary:false,
                 eduNext:false,
+                addSkill:false,
                 skills:{
                     skill:'',
-                    level: 'novare'
+                    level: ''
                 },
                 ruleValidate: {
                     skill : [
@@ -77,6 +88,8 @@
                                this.getData()
                                this.$refs[name].resetFields();
                                this.skillSending = false
+                               this.addSkill = false
+                                this.skills.level = ""
                        } else {
                             this.$Message.error('Fail!');
                        }
@@ -105,9 +118,13 @@
                 this.eduNext = true;
                 this.isSkill = false;
                 this.getData();
-            }
+            },
+               addSkills() {
+                   this.addSkill = true
+                }
         
         },
+     
 
 
     }

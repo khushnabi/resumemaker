@@ -5,6 +5,7 @@ use App\Experience;
 use App\Education;
 use App\Skill;
 use App\Summary;
+use App\Custom;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,6 +27,10 @@ class Resume extends Model
 
   public function summaries() {
     return $this->hasMany(Summary::class);
+  }
+
+  public function customs() {
+    return $this->hasMany(Custom::class);
   }
 
 }

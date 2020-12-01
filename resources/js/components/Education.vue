@@ -9,8 +9,8 @@
             </div>
         </div>
      
-        <Button @click="perviousToExp()" style="margin-left: 8px">pervious to Experiance</Button>
-         {{resume_data.id}}
+        <Button  v-if="notFinalize" @click="perviousToExp()" style="margin-left: 8px">pervious to Experiance</Button>
+
         <div>
             <Button type="primary" @click="addEducation">Add Education</Button>
         </div>
@@ -56,7 +56,7 @@
        
         </div>
         <div>
-            <Button type="primary" @click="nextSkill">next to Skill</Button>
+            <Button v-if="notFinalize" type="primary" @click="nextSkill">next to Skill</Button>
         </div>
         
 
@@ -66,7 +66,10 @@
 <script>
     // import Experiance from "./Exxperiance.vue"
     export default {
-        props:['resume_data'],
+        props:{
+            resume_data:Object,
+            notFinalize:Boolean
+            },
     //    components: {
     //        Experiance
     //    },
@@ -150,15 +153,10 @@
 
             async getResumeData() {
                  const res = await this.resumeApi('get', `/resume/${this.resume_data.id}`);
-                 console.log("hellow form eduaction")
-                 console.log(res.data);
                  this.educationData = res.data.educations;
             },
 
             async getExperianceData() {
-                // console.log(this.resume_data);
-                // const data = await this.resumeApi('get', `/resume/${this.resume_data.id}/experiance`);
-                // console.log(data);
         },
 
         nextSkill() {

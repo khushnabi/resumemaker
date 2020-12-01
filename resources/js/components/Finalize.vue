@@ -1,113 +1,171 @@
 <template>
     <div>
-       <h1>final</h1>
-      
 
-            <Form ref="summaries" :model="summaries" :rules="ruleValidate">
-                <FormItem label="summary" prop="summary">
-                    <Input v-model="summaries.summary"  @input="getData()" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..." />
-                </FormItem>
+       
 
-                <Button type="primary" @click="handleSubmit('summaries')">Next</Button>
-            </Form>
+       <div>
+           Experiance
+           <Experiance  :notFinalize="notFinalize" :resume_data="resume_data" v-on:expData="experianceData($event)" ></Experiance>
+       </div>
+       <hr />
+       <div>
+           Education
+            <Education  :notFinalize="notFinalize" :resume_data="resume_data" v-on:eduData="geteducationData($event)" ></Education>
+       </div>
+          <hr />
+       <div>
+           Skill
+            <Skill  :notFinalize="notFinalize" :resume_data="resume_data" v-on:skillData="skillsData($event)" ></Skill>   
+       </div>
+           <hr />
+       <div>
+           <Summary :notFinalize="notFinalize" :resume_data="resume_data" v-on:summaryData="getSummary($event)" ></Summary> 
+       </div>
+        <hr />
+       <div>
+           <Custom :notFinalize="notFinalize" :resume_data="resume_data" v-on:customData="getCustomData($event)" ></Custom> 
+       </div>
 
-        <Button type="primary" :loading="sumarySending" @click="nextToFinalize">next to Finalize</Button>
-    </div>
+        <div>
+            <Button type="primary" @click="chooseTemplet()">choose templete</Button>
+            <div v-if="isTemplete"><router-link to="resumes/:templete1">templete1</router-link></div>
+        </div>
+
+
+          
+
+       </div>
 </template>
-
-
 <script>
-    // import Experiance from "./Exxperiance.vue"
+    import Education from "./Education.vue";
+    import Experiance from "./Experiance.vue";
+    import Skill from "./Skill.vue";
+    import Summary from "./Summary";
+    import Custom from "./Custom"
+
     export default {
-        props:['resume_data'],
-    //    components: {
-    //        Experiance
-    //    },
+         props:['resume_data'],
+        components: {
+            Education,
+            Experiance,
+            Skill,
+            Summary,
+            Custom
+        },
         data () {
             return {
-                sumarySending:false,
+               notFinalize:false,
+               isGetExpData:[],
+               experiances:{},
+               educations:{},
+               educationData:[],
+               skills:{},
+               skillDatas:[],
                summariesData:[],
-               final:true,
-                isSkill:false,
-                expNext:false,
-                isSummary:false,
-                eduNext:false,
-                summaries:{
-                    summary:'',
-                   
-                },
-                ruleValidate: {
-                    skill : [
-                        { required: true, message: 'The first name cannot be empty', trigger: 'blur' }
-                    ],
-                }
+               summaries:{},
+               customDatas:[],
+               isTemplete:false,
+               customs:{},
             }
         },
+     
 
+  
 
-      async mounted() {
-            await this.getResumeData()
-            this.getData()
+        mounted() {
+            // this.getData()
         },
 
         methods: {
-
             getData() {
-                console.log("i am from summary")
-                this.$emit("summaryData", [this.final]);
+                this.$emit("finalData", [this.experiances, this.isGetExpData, this.educationData, this.educations, this.skills, this.skillDatas, this.summaries, this.summariesData, this.customs, this.customDatas]);
             },
 
-            handleSubmit (name) {
-               
-               this.$refs[name].validate( async (valid) => {
-                    if (valid) {
-                          this.sumarySending = true;
-                          const res = await this.resumeApi('post', `/resume/${this.resume_data.id}/summary/create`, this.summaries);
-
-                            console.log(res.data)
-                            console.log("hellwo form sening data")
-                          if(res.status===201) {
-                               await this.getResumeData()
-                               this.$Message.success('Success!');
-                               this.isAddingEdu = false;
-                               this.getData()
-                               this.$refs[name].resetFields();
-                               this.sumarySending = false
-                       } else {
-                            this.$Message.error('Fail!');
-                       }
-                            
-                  } else {
-                       this.$Message.error('Fail!');
-                  }
-               })
-        },
-         async getResumeData() {
-                 const res = await this.resumeApi('get', `/resume/${this.resume_data.id}`);
-                 console.log("hellow form skills")
-                 console.log(res.data);
-                 this.summariesData = res.data.summaries;
-                //  console.log(this.skillDatas);
-                //  console.log(this.skillDatas[0])
+        
+            experianceData(expData) {
+                this.experiances = expData[0]
+                this.isGetExpData = expData[3]
+                this.getData()
             },
 
-            nextToFinalize() {
-                this.isSummary = false;
-                this.expNext = false;
-                this.eduNext = false;
-                this.isSkill = false;
-                this.final = true
-                this.getData();
+            geteducationData(eduData) {
+                this.educations = eduData[0]
+                this.educationData = eduData[2]
+                this.getData()
+
             },
 
-        },
+            skillsData(skillData) {
+                this.skills = skillData[0];
+                this.skillDatas = skillData[1];
+                this.getData()
+            },
 
-
-    
-
+            getSummary(summaryData) {
+                 this.summaries = summaryData[0];
+                this.summariesData = summaryData[1];
+                this.getData()
+            },
+            getCustomData(customData) {
+                console.log("customs data")
+                this.customs = customData[0];
+                this.customDatas = customData[1]
+                console.log(this.customDatas)
+                 this.getData()
+            },
+            chooseTemplet() {
+                this.isTemplete = true
+            }
+       
+       
+        }
     }
 </script>
 
+<style>
+
+
+    .color-white {
+        color:#fff;
+    }
+
+    .demo-upload-list{
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        margin-right: 4px;
+    }
+    .demo-upload-list img{
+        width: 100%;
+        height: 100%;
+    }
+    .demo-upload-list-cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,.6);
+    }
+    .demo-upload-list:hover .demo-upload-list-cover{
+        display: block;
+    }
+    .demo-upload-list-cover i{
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
+    }
+</style>
 
 
 

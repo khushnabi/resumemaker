@@ -39,7 +39,7 @@ class ResumeController extends Controller
         //  return Resume::findOrFail($id)->experiences;
         //   return Resume::findOrFail($id)->with('experiences');
 
-          return $resume->load("experiences",'educations',"skills","summaries");
+          return $resume->load("experiences",'educations',"skills","summaries", "customs");
      }
 
      public function deleteResume(Request $request, $id) {

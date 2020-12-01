@@ -29,6 +29,7 @@ Route::post('/resume/{resume}/education/create', 'educationController@store');
 Route::post('/resume/{resume}/skill/create', 'skillController@store');
 
 Route::post('/resume/{resume}/summary/create', 'summaryController@store');
+Route::post('/resume/{resume}/custom/create', 'customController@store');
 
 
 Route::get('/', function () {

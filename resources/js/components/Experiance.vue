@@ -11,8 +11,7 @@
             </div>
         </div>
      
-        <Button @click="pervious()" style="margin-left: 8px">pervious</Button>
-         {{resume_data.id}}
+        <Button v-if="notFinalize" @click="pervious()" style="margin-left: 8px">pervious</Button>
         <div>
             <Button type="primary" @click="addExperiance">Add Experiance</Button>
         </div>
@@ -35,13 +34,14 @@
             </FormItem>
 
               <FormItem label="end at" prop="end_at">
-                <Input v-model="experiances.end_at"  @input="getData()"  type="date" placeholder="end_at" />
+                <Input :disabled="experiances.work_here" v-model="experiances.end_at"  @input="getData()"  type="date" placeholder="end_at" />
             </FormItem>
 
+           <FormItem label="currently work here" prop="work_here">
+                <Checkbox v-model="experiances.work_here">Checkbox</Checkbox>
+            </FormItem>
 
-            <!-- <CheckboxGroup>
-                <Checkbox label="work-here"></Checkbox>
-            </CheckboxGroup> -->
+           
 
              <FormItem label="Desc" >
                 <Input v-model="experiances.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..." />
@@ -57,14 +57,17 @@
         
 
         <div>
-              <Button @click="nextToEdu()" style="margin-left: 8px">Next to education</Button>
+              <Button v-if="notFinalize" @click="nextToEdu()" style="margin-left: 8px">Next to education</Button>
           </div>
     </div>
 </template>
 <script>
     // import Experiance from "./Exxperiance.vue"
     export default {
-        props:['resume_data'],
+          props:{
+            resume_data:Object,
+            notFinalize:Boolean
+            },
     //    components: {
     //        Experiance
     //    },
@@ -83,7 +86,7 @@
                     city: 'dsfds',
                     end_at:'',
                     description: "fsdfasdfasf",
-                    work_here:0
+                    work_here:false
                   
                  
                 },
@@ -102,11 +105,8 @@
                     city: [
                         { required: true, message: 'Please select the city', trigger: 'blur' }
                     ],
-                     end_at: [
+                     start_at: [
                         { required: true, message: 'Please select the end at', trigger: 'blur' }
-                    ],
-                     work_here: [
-                        { required: true, message: 'Please select the city', trigger: 'blur' }
                     ],
                     
                 }
@@ -138,7 +138,7 @@
                                 this.isAddingExp = false;
                                 this.getData()
                                 this.$refs[name].resetFields();
-                                this.expsending
+                                this.expsending = false
                         } else {
                             this.$Message.error('Fail!');
                         }
@@ -160,9 +160,7 @@
             },
 
             async getExperianceData() {
-                // console.log(this.resume_data);
-                // const data = await this.resumeApi('get', `/resume/${this.resume_data.id}/experiance`);
-                // console.log(data);
+                
         },
 
             nextToEdu() {
