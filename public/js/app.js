@@ -3418,6 +3418,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3427,6 +3429,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      hasError: false,
       emptyFormField: false,
       template1: false,
       showTemplete: false,
@@ -3528,19 +3531,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                _context3.prev = 0;
+                _context3.next = 3;
                 return _this3.resumeApi('get', '/resume/get');
 
-              case 2:
+              case 3:
                 allDAta = _context3.sent;
                 _this3.resumeDatas = allDAta.data;
+                _context3.next = 11;
+                break;
 
-              case 4:
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](0);
+                _this3.hasError = true;
+                _this3.error = _context3.t0.message;
+
+              case 11:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, null, [[0, 7]]);
       }))();
     },
     onEdit: function onEdit(id) {
@@ -70524,231 +70536,165 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _vm.isCreating
-      ? _c("div", { staticClass: "resumes" }, [
-          _c(
-            "div",
-            [
-              _c("Icon", {
-                attrs: { type: "md-close" },
-                on: {
-                  click: function($event) {
-                    return _vm.onClose()
-                  }
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "forms" },
-            [
-              _c("Heading", {
-                attrs: {
-                  editId: _vm.editId,
-                  emptyFormField: _vm.emptyFormField
-                },
-                on: {
-                  data: function($event) {
-                    return _vm.getData($event)
-                  }
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.template1
-            ? _c(
+  return _vm.hasError
+    ? _c(
+        "div",
+        { staticClass: "container" },
+        [
+          _c("Alert", { attrs: { type: "error" } }, [
+            _vm._v("\n        Something went wrong\n        "),
+            _c("span", { attrs: { slot: "desc" }, slot: "desc" }, [
+              _vm._v(_vm._s(this.error))
+            ])
+          ])
+        ],
+        1
+      )
+    : _c("div", { staticClass: "container" }, [
+        _vm.isCreating
+          ? _c("div", { staticClass: "resumes" }, [
+              _c(
                 "div",
-                { staticClass: "datas" },
                 [
-                  _c("ShowResume", {
-                    attrs: {
-                      resumeContent: _vm.resumeContent,
-                      expContent: _vm.expContent,
-                      isGetExpData: _vm.isGetExpData,
-                      educations: _vm.educations,
-                      educationData: _vm.educationData,
-                      skills: _vm.skills,
-                      skillDatas: _vm.skillDatas,
-                      summaries: _vm.summaries,
-                      summariesData: _vm.summariesData,
-                      editId: _vm.editId,
-                      customs: _vm.customs,
-                      customDatas: _vm.customDatas
-                    },
+                  _c("Icon", {
+                    attrs: { type: "md-close" },
                     on: {
-                      template: function($event) {
-                        return _vm.getTemplate($event)
+                      click: function($event) {
+                        return _vm.onClose()
                       }
                     }
                   })
                 ],
                 1
-              )
-            : _vm._e()
-        ])
-      : _vm.showTemplete
-      ? _c("div", [
-          _c("div", { on: { click: _vm.simpleTemplete } }, [
-            _vm._v("\n                simple templete\n            ")
-          ])
-        ])
-      : _c("div", [
-          _c("div", [
-            _c("div", { staticClass: "dashboard" }, [
-              _vm._m(0),
+              ),
               _vm._v(" "),
-              _c("div", [
-                _c(
-                  "button",
-                  { staticClass: "primary", on: { click: _vm.onCreate } },
-                  [_vm._v("Create new")]
-                )
+              _c(
+                "div",
+                { staticClass: "forms" },
+                [
+                  _c("Heading", {
+                    attrs: {
+                      editId: _vm.editId,
+                      emptyFormField: _vm.emptyFormField
+                    },
+                    on: {
+                      data: function($event) {
+                        return _vm.getData($event)
+                      }
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.template1
+                ? _c(
+                    "div",
+                    { staticClass: "datas" },
+                    [
+                      _c("ShowResume", {
+                        attrs: {
+                          resumeContent: _vm.resumeContent,
+                          expContent: _vm.expContent,
+                          isGetExpData: _vm.isGetExpData,
+                          educations: _vm.educations,
+                          educationData: _vm.educationData,
+                          skills: _vm.skills,
+                          skillDatas: _vm.skillDatas,
+                          summaries: _vm.summaries,
+                          summariesData: _vm.summariesData,
+                          editId: _vm.editId,
+                          customs: _vm.customs,
+                          customDatas: _vm.customDatas
+                        },
+                        on: {
+                          template: function($event) {
+                            return _vm.getTemplate($event)
+                          }
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ])
+          : _vm.showTemplete
+          ? _c("div", [
+              _c("div", { on: { click: _vm.simpleTemplete } }, [
+                _vm._v("\n                simple templete\n            ")
               ])
-            ]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "show-resumes" },
-              [
-                _vm._l(_vm.resumeDatas, function(resumeData, i) {
-                  return _c("div", { key: i }, [
+            ])
+          : _c("div", [
+              _c("div", [
+                _c("div", { staticClass: "dashboard" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("div", [
                     _c(
-                      "div",
-                      [
-                        _c("Card", { staticStyle: { width: "220px" } }, [
-                          _c(
-                            "div",
-                            { staticStyle: { "text-align": "center" } },
-                            [
+                      "button",
+                      { staticClass: "primary", on: { click: _vm.onCreate } },
+                      [_vm._v("Create new")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "show-resumes" },
+                  [
+                    _vm._l(_vm.resumeDatas, function(resumeData, i) {
+                      return _c("div", { key: i }, [
+                        _c(
+                          "div",
+                          [
+                            _c("Card", { staticStyle: { width: "220px" } }, [
                               _c(
                                 "div",
+                                { staticStyle: { "text-align": "center" } },
                                 [
-                                  _c("p", [
-                                    _vm._v(" " + _vm._s(resumeData.first_name))
-                                  ]),
-                                  _vm._v(" "),
-                                  resumeData.profile_img
-                                    ? _c("img", {
-                                        staticClass: "image",
-                                        attrs: {
-                                          src: resumeData.profile_img,
-                                          alt: ""
-                                        }
-                                      })
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _c(
-                                    "Button",
-                                    {
-                                      attrs: { type: "default" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.onEdit(resumeData.id)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("edit")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "Button",
-                                    {
-                                      attrs: { type: "error" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.isDeleted(resumeData, i)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Delete")]
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "Modal",
-                                {
-                                  attrs: { width: "360" },
-                                  model: {
-                                    value: _vm.isDeletedModel,
-                                    callback: function($$v) {
-                                      _vm.isDeletedModel = $$v
-                                    },
-                                    expression: "isDeletedModel"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "p",
-                                    {
-                                      staticStyle: {
-                                        color: "#f60",
-                                        "text-align": "center"
-                                      },
-                                      attrs: { slot: "header" },
-                                      slot: "header"
-                                    },
-                                    [
-                                      _c("Icon", {
-                                        attrs: {
-                                          type: "ios-information-circle"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", [
-                                        _vm._v("Delete confirmation")
-                                      ])
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
                                   _c(
                                     "div",
-                                    { staticStyle: { "text-align": "center" } },
                                     [
                                       _c("p", [
                                         _vm._v(
-                                          _vm._s(_vm.delete_data.first_name) +
-                                            " will be deleted"
+                                          " " + _vm._s(resumeData.first_name)
                                         )
                                       ]),
                                       _vm._v(" "),
-                                      _c("p", [_vm._v("Will you delete it?")])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      attrs: { slot: "footer" },
-                                      slot: "footer"
-                                    },
-                                    [
+                                      resumeData.profile_img
+                                        ? _c("img", {
+                                            staticClass: "image",
+                                            attrs: {
+                                              src: resumeData.profile_img,
+                                              alt: ""
+                                            }
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
                                       _c(
                                         "Button",
                                         {
-                                          attrs: {
-                                            type: "error",
-                                            size: "large",
-                                            long: "",
-                                            loading: resumeData.isDeleting,
-                                            disabled: resumeData.isDeleting
-                                          },
+                                          attrs: { type: "default" },
                                           on: {
                                             click: function($event) {
-                                              return _vm.onDelete(
-                                                _vm.delete_data,
-                                                _vm.delete_data.id,
-                                                _vm.index
+                                              return _vm.onEdit(resumeData.id)
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("edit")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "Button",
+                                        {
+                                          attrs: { type: "error" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.isDeleted(
+                                                resumeData,
+                                                i
                                               )
                                             }
                                           }
@@ -70757,34 +70703,129 @@ var render = function() {
                                       )
                                     ],
                                     1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "Modal",
+                                    {
+                                      attrs: { width: "360" },
+                                      model: {
+                                        value: _vm.isDeletedModel,
+                                        callback: function($$v) {
+                                          _vm.isDeletedModel = $$v
+                                        },
+                                        expression: "isDeletedModel"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "p",
+                                        {
+                                          staticStyle: {
+                                            color: "#f60",
+                                            "text-align": "center"
+                                          },
+                                          attrs: { slot: "header" },
+                                          slot: "header"
+                                        },
+                                        [
+                                          _c("Icon", {
+                                            attrs: {
+                                              type: "ios-information-circle"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v("Delete confirmation")
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticStyle: {
+                                            "text-align": "center"
+                                          }
+                                        },
+                                        [
+                                          _c("p", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.delete_data.first_name
+                                              ) + " will be deleted"
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("p", [
+                                            _vm._v("Will you delete it?")
+                                          ])
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          attrs: { slot: "footer" },
+                                          slot: "footer"
+                                        },
+                                        [
+                                          _c(
+                                            "Button",
+                                            {
+                                              attrs: {
+                                                type: "error",
+                                                size: "large",
+                                                long: "",
+                                                loading: resumeData.isDeleting,
+                                                disabled: resumeData.isDeleting
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.onDelete(
+                                                    _vm.delete_data,
+                                                    _vm.delete_data.id,
+                                                    _vm.index
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Delete")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ]
                                   )
-                                ]
+                                ],
+                                1
                               )
-                            ],
-                            1
-                          )
-                        ])
-                      ],
-                      1
-                    ),
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("br")
+                      ])
+                    }),
                     _vm._v(" "),
-                    _c("br")
-                  ])
-                }),
-                _vm._v(" "),
-                _c(
-                  "Button",
-                  { attrs: { type: "primary" }, on: { click: _vm.onCreate } },
-                  [_vm._v("Create new")]
+                    _c(
+                      "Button",
+                      {
+                        attrs: { type: "primary" },
+                        on: { click: _vm.onCreate }
+                      },
+                      [_vm._v("Create new")]
+                    )
+                  ],
+                  2
                 )
-              ],
-              2
-            )
-          ])
-        ]),
-    _vm._v(" "),
-    _c("div")
-  ])
+              ])
+            ]),
+        _vm._v(" "),
+        _c("div")
+      ])
 }
 var staticRenderFns = [
   function() {
@@ -71663,7 +71704,7 @@ function normalizeComponent (
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /*!
-  * vue-router v3.4.8
+  * vue-router v3.4.9
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -73029,6 +73070,14 @@ function addRouteRecord (
         path || name
       )) + " cannot be a " + "string id. Use an actual component instead."
     );
+
+    warn(
+      // eslint-disable-next-line no-control-regex
+      !/[^\u0000-\u007F]+/.test(path),
+      "Route with path \"" + path + "\" contains unencoded characters, make sure " +
+        "your path is correctly encoded before passing it to the router. Use " +
+        "encodeURI to encode static segments of your path."
+    );
   }
 
   var pathToRegexpOptions =
@@ -73334,14 +73383,6 @@ function matchRoute (
   path,
   params
 ) {
-  try {
-    path = decodeURI(path);
-  } catch (err) {
-    if (true) {
-      warn(false, ("Error decoding \"" + path + "\". Leaving it intact."));
-    }
-  }
-
   var m = path.match(regex);
 
   if (!m) {
@@ -73354,7 +73395,7 @@ function matchRoute (
     var key = regex.keys[i - 1];
     if (key) {
       // Fix #1994: using * with props: true generates a param named 0
-      params[key.name || 'pathMatch'] = m[i];
+      params[key.name || 'pathMatch'] = typeof m[i] === 'string' ? decode(m[i]) : m[i];
     }
   }
 
@@ -74719,7 +74760,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.4.8';
+VueRouter.version = '3.4.9';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 
@@ -86897,16 +86938,8 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -86914,34 +86947,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     resumeApi: function resumeApi(method, url, dataobj) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.prev = 0;
-                _context.next = 3;
-                return axios({
-                  method: method,
-                  url: url,
-                  data: dataobj
-                });
-
-              case 3:
-                return _context.abrupt("return", _context.sent);
-
-              case 6:
-                _context.prev = 6;
-                _context.t0 = _context["catch"](0);
-                return _context.abrupt("return", _context.t0.response);
-
-              case 9:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[0, 6]]);
-      }))();
+      return axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        method: method,
+        url: url,
+        data: dataobj
+      });
     }
   }
 });
@@ -87252,7 +87262,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Finalize_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Finalize.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Finalize.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Finalize_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Finalize_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Finalize_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Finalize_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Finalize_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
 
 /***/ }),
 
@@ -87339,7 +87349,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Heading_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Heading.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Heading.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Heading_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Heading_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Heading_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Heading_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Heading_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
 
 /***/ }),
 
@@ -87426,7 +87436,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Resume_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Resume.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Resume.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Resume_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Resume_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Resume_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Resume_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Resume_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
 
 /***/ }),
 
@@ -87778,8 +87788,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\Laravel\Laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\Laravel\Laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/adil/web/resumemaker/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/adil/web/resumemaker/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

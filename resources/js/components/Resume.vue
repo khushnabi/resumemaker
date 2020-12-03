@@ -1,6 +1,12 @@
 <template>
-    <div class="container">
-          <div v-if="isCreating" class="resumes">
+    <div v-if="hasError" class="container">
+        <Alert type="error">
+            Something went wrong
+            <span slot="desc">{{this.error}}</span>
+        </Alert>
+    </div>
+    <div v-else class="container">
+            <div v-if="isCreating" class="resumes">
                 <div>
                     <Icon @click="onClose()" type="md-close" />
                 </div>
@@ -64,11 +70,7 @@
                 </div>
             </div>
         <div>
-          
-
-          
         </div>
-        
     </div>
 </template>
 
@@ -84,6 +86,7 @@ export default {
     },
     data () {
         return {
+            hasError: false,
             emptyFormField:false,
             template1:false,
             showTemplete:false,
@@ -142,17 +145,21 @@ export default {
            this.summaries ={}
            this.summariesData = []
             this.customs = {}
-           this.customDatas = []
+            this.customDatas = []
 
-              this.isCreating=false;
-              this.showTemplete = false
-              this.editId = null;
-               await this.getResumeData();
-
+            this.isCreating=false;
+            this.showTemplete = false
+            this.editId = null;
+            await this.getResumeData();
         },
-     async getResumeData() {
-           const allDAta = await this.resumeApi('get', '/resume/get');
-            this.resumeDatas = allDAta.data;
+        async getResumeData() {
+            try {
+                const allDAta = await this.resumeApi('get', '/resume/get');
+                this.resumeDatas = allDAta.data;
+            } catch(err) {
+                this.hasError = true;
+                this.error = err.message;
+            }
         },
 
         onEdit(id) {

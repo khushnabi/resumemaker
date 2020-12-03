@@ -7,16 +7,12 @@ export default {
         }
     },
     methods: {
-       async resumeApi(method, url, dataobj) {
-            try {
-               return await axios({
-                    method:method,
-                    url:url,
-                    data:dataobj
-                });
-            } catch (e) {
-                return e.response
-            }
+        resumeApi(method, url, dataobj) {
+            return Axios({
+                method: method,
+                url: url,
+                data: dataobj
+            });
         }
     },  
 }
