@@ -1,16 +1,12 @@
 <template>
     <div>
-
- 
-
        <h1>Experiance</h1>
-      
-        <div  v-if="experianceData.length>0">
+        <div v-if="experianceData.length>0">
             <div v-for="(expData, i) in experianceData" :key="i">
                 {{expData.job_title}}
             </div>
         </div>
-     
+
         <Button v-if="notFinalize" @click="pervious()" style="margin-left: 8px">pervious</Button>
         <div>
             <Button type="primary" @click="addExperiance">Add Experiance</Button>
@@ -41,20 +37,20 @@
                 <Checkbox v-model="experiances.work_here">Checkbox</Checkbox>
             </FormItem>
 
-           
+
 
              <FormItem label="Desc" >
                 <Input v-model="experiances.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..." />
-            </FormItem> 
+            </FormItem>
             <FormItem>
                 <Button type="primary" :loading="expsending" @click="handleSubmit('experiances')">create experiances</Button>
                 <!-- <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button> -->
-                
+
             </FormItem>
         </Form>
         </div>
 
-        
+
 
         <div>
               <Button v-if="notFinalize" @click="nextToEdu()" style="margin-left: 8px">Next to education</Button>
@@ -87,8 +83,8 @@
                     end_at:'',
                     description: "fsdfasdfasf",
                     work_here:false
-                  
-                 
+
+
                 },
                 ruleValidate: {
                     job_title : [
@@ -100,7 +96,7 @@
 
                      start_at : [
                         { required: false, message: 'The start cannot be empty', trigger: 'blur' }
-                    ], 
+                    ],
 
                     city: [
                         { required: true, message: 'Please select the city', trigger: 'blur' }
@@ -108,7 +104,7 @@
                      start_at: [
                         { required: true, message: 'Please select the end at', trigger: 'blur' }
                     ],
-                    
+
                 }
             }
         },
@@ -126,7 +122,7 @@
             },
 
              handleSubmit (name) {
-               
+
                 this.$refs[name].validate( async (valid) => {
                     if (valid) {
                             this.expsending = true
@@ -142,13 +138,13 @@
                         } else {
                             this.$Message.error('Fail!');
                         }
-                            
+
                     } else {
                         this.$Message.error('Fail!');
                     }
                 })
             },
-            
+
             addExperiance() {
                 this.isnotAdding=false;
                 this.isAddingExp = true
@@ -160,7 +156,7 @@
             },
 
             async getExperianceData() {
-                
+
         },
 
             nextToEdu() {

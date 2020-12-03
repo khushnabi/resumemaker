@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::resource('resumes', 'ResumeController');
+Route::post('/resumes/upload', 'ResumeController@upload');
+Route::post('/resumes/profile_img', 'ResumeController@deleteImg');
+Route::resource('resumes.experiences', 'ExperienceController');
+Route::resource('resumes.educations', 'EducationController');
+Route::resource('resumes.skills', 'SkillController');
+Route::resource('resume.summaries', 'SummaryController');
+Route::post('/resume/{resume}/custom/create', 'CustomController@store');

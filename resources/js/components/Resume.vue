@@ -16,7 +16,7 @@
                     v-on:data="getData($event)"></Heading>
                 </div>
                 <div v-if="template1" class="datas">
-                    <ShowResume :resumeContent='resumeContent' :expContent='expContent' :isGetExpData="isGetExpData" :educations="educations" :educationData="educationData" :skills="skills" :skillDatas="skillDatas" :summaries="summaries" :summariesData="summariesData" :editId="editId" :customs="customs" :customDatas="customDatas" v-on:template="getTemplate($event)"></ShowResume>   
+                    <ShowResume :resumeContent='resumeContent' :expContent='expContent' :isGetExpData="isGetExpData" :educations="educations" :educationData="educationData" :skills="skills" :skillDatas="skillDatas" :summaries="summaries" :summariesData="summariesData" :editId="editId" :customs="customs" :customDatas="customDatas" v-on:template="getTemplate($event)"></ShowResume>
                 </div>
             </div>
 
@@ -35,16 +35,16 @@
                         </div>
                         <hr />
                         <div class="show-resumes">
-                                <div v-for="(resumeData, i) in resumeDatas" :key="i"> 
+                                <div v-for="(resumeData, i) in resumeDatas" :key="i">
                                     <div>
                                         <Card style="width:220px">
                                                 <div style="text-align:center">
                                                 <div>
                                                         <p> {{resumeData.first_name}}</p>
-                                                            <img  v-if="resumeData.profile_img"  class="image" :src="resumeData.profile_img" alt="">
-                                                        <Button type="default" @click="onEdit(resumeData.id)">edit</Button>
+                                                        <img  v-if="resumeData.profile_img"  class="image" :src="resumeData.profile_img" alt="">
+                                                        <router-link :to="`/resumes/${resumeData.id}/edit`"><Button type="default">Edit</Button></router-link>
                                                         <Button type="error" @click="isDeleted(resumeData, i)">Delete</Button>
-                                                        
+
                                                 </div>
                                                         <Modal v-model="isDeletedModel" width="360">
                                                             <p slot="header" style="color:#f60;text-align:center">
@@ -75,13 +75,10 @@
 </template>
 
 <script>
-
-import Heading from './Heading';
+import Axios from "axios";
 import ShowResume from "./showResume";
-
 export default {
     components:{
-      Heading,
       ShowResume
     },
     data () {
@@ -108,11 +105,11 @@ export default {
             customs:{},
             customDatas:[],
         }
-   
+
     },
    async mounted() {
         await this.getResumeData();
-      
+
     },
     methods: {
         getData(obj) {
@@ -154,8 +151,8 @@ export default {
         },
         async getResumeData() {
             try {
-                const allDAta = await this.resumeApi('get', '/resume/get');
-                this.resumeDatas = allDAta.data;
+                const { data } = await Axios.get("/api/resumes");
+                this.resumeDatas = data;
             } catch(err) {
                 this.hasError = true;
                 this.error = err.message;
@@ -183,7 +180,7 @@ export default {
 
         getTemplate(template) {
            this.template1=template
-           
+
         },
 
       async onDelete(resume, id, index) {
@@ -199,10 +196,10 @@ export default {
                   this.$Message.error('Fail!');
             }
         }
-        
+
 
     },
-    
+
 }
 </script>
 

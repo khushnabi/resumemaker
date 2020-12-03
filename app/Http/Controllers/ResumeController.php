@@ -10,17 +10,13 @@ class ResumeController extends Controller
 {
 
     public function index(Request $request){
-        return  Resume::create($request->all());
-     }
-
-     public function getData() {
-         return Resume::orderBy('id', 'desc')->get();
-     }
-    
-
-
-    public function editResume(Request $request, $id){
-        return  Resume::where('id', $id)->update([
+        return Resume::orderBy('id', 'desc')->get();
+    }
+    public function store() {
+        return Resume::create($request->all());
+    }
+    public function update(Request $request, $id){
+        return Resume::where('id', $id)->update([
             'id'=>$request->id,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -35,14 +31,10 @@ class ResumeController extends Controller
 
      public function show($id) {
          $resume = Resume::findOrFail($id);
-
-        //  return Resume::findOrFail($id)->experiences;
-        //   return Resume::findOrFail($id)->with('experiences');
-
-          return $resume->load("experiences",'educations',"skills","summaries", "customs");
+        return $resume->load("experiences",'educations',"skills","summaries", "customs");
      }
 
-     public function deleteResume(Request $request, $id) {
+     public function delete(Request $request, $id) {
             $fileName = $request->profile_img;
             $filePath = public_path().'/uploads/'.$fileName;
             if(file_exists($filePath)) {
@@ -52,10 +44,9 @@ class ResumeController extends Controller
      }
 
      public function upload(Request $request) {
-             $pickName = time().'.'.$request->file->extension();
-             $request->file->move(public_path('uploads'), $pickName );
-             return $pickName;
-
+        $pickName = time().'.'.$request->file->extension();
+        $request->file->move(public_path('uploads'), $pickName );
+        return $pickName;
     }
 
     public function deleteImg(Request $request) {
@@ -66,5 +57,5 @@ class ResumeController extends Controller
         };
         return "done";
     }
-    
+
 }

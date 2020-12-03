@@ -1,35 +1,31 @@
 <template>
     <div>
-
-       
-
        <div v-if="expNext">
            Experiance
            <Experiance :notFinalize="notFinalize" :resume_data="resume_data" v-on:expData="experianceData($event)" ></Experiance>
        </div>
-       
+
        <div v-else-if="eduNext">
            Education
             <Education :notFinalize="notFinalize" :resume_data="resume_data" v-on:eduData="geteducationData($event)" ></Education>
        </div>
-       
+
        <div v-else-if="isSkill">
            Skill
-            <Skill :notFinalize="notFinalize" :resume_data="resume_data" v-on:skillData="skillsData($event)" ></Skill>   
+            <Skill :notFinalize="notFinalize" :resume_data="resume_data" v-on:skillData="skillsData($event)" ></Skill>
        </div>
 
        <div v-else-if="isSummary">
-           <Summary :notFinalize="notFinalize" :resume_data="resume_data" v-on:summaryData="getSummary($event)" ></Summary> 
+           <Summary :notFinalize="notFinalize" :resume_data="resume_data" v-on:summaryData="getSummary($event)" ></Summary>
        </div>
 
        <div v-else-if="final">
-           <Finalize :resume_data="resume_data" v-on:finalData="getFinal($event)" ></Finalize> 
-            
+           <Finalize :resume_data="resume_data" v-on:finalData="getFinal($event)" ></Finalize>
+
        </div>
 
        <div v-else>
            {{resumeEditId}}
-
                   <Upload
                     ref="uploads"
                     :on-success="handleSuccess"
@@ -48,54 +44,48 @@
                 </Upload>
 
 
-                    <div class="demo-upload-list" v-if="formValidate.profile_img">
-                             <img :src="formValidate.profile_img">
+                    <div class="demo-upload-list" v-if="resume.profile_img">
+                             <img :src="resume.profile_img">
                             <div class="demo-upload-list-cover">
                                 <Icon type="ios-trash-outline" @click="handleRemove"></Icon>
                             </div>
                     </div>
-              
+
               <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
             <FormItem label="first name" prop="first_name">
-                <Input v-model="formValidate.first_name" @input="getData()" placeholder="first name" />
+                <Input v-model="resume.first_name" @input="getData()" placeholder="first name" />
             </FormItem>
 
               <FormItem label="last names" prop="last_name">
-                <Input v-model="formValidate.last_name"  @input="getData()" placeholder="last name" />
+                <Input v-model="resume.last_name"  @input="getData()" placeholder="last name" />
             </FormItem>
 
               <FormItem label="address" prop="address">
-                <Input v-model="formValidate.address"  @input="getData()" placeholder="address" />
+                <Input v-model="resume.address" placeholder="address" />
             </FormItem>
 
              <FormItem label="City" prop="city">
-               <Input v-model="formValidate.city" @input="getData()" placeholder="Enter your city" />
+               <Input v-model="resume.city" @input="getData()" placeholder="Enter your city" />
             </FormItem>
-            
+
             <FormItem label="postalCode" prop="postal_code">
-               <Input type="number" v-model="formValidate.postal_code" @input="getData()" placeholder="postal code" />
+               <Input type="number" v-model="resume.postal_code" @input="getData()" placeholder="postal code" />
             </FormItem>
 
             <FormItem label="phone" prop="phone">
-                <Input type="number" v-model="formValidate.phone" @input="getData()" placeholder="phone" />
+                <Input type="number" v-model="resume.phone" @input="getData()" placeholder="phone" />
             </FormItem>
-    
+
             <FormItem label="E-mail" prop="email">
-                <Input v-model="formValidate.email" @input="getData()" placeholder="Enter your e-mail" />
+                <Input v-model="resume.email" @input="getData()" placeholder="Enter your e-mail" />
             </FormItem>
 
             <FormItem>
                 <Button type="primary" :loading="isHeadinSend" @click="handleSubmit('formValidate')">Next</Button>
                 <!-- <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button> -->
-
-               
-                
-
             </FormItem>
         </Form>
-
        </div>
-     
     </div>
 </template>
 <script>
@@ -106,7 +96,7 @@
     import Finalize from "./Finalize"
 
     export default {
-        props:['editId','emptyFormField'],
+        props:['editId','emptyFormField', "resume"],
         token:"",
         components: {
             Experiance,
@@ -149,8 +139,8 @@
                     phone: '834985',
                     email: "dfd@dgmil.com",
                     created_at:'',
-                  
-                 
+
+
                 },
                 ruleValidate: {
                     first_name : [
@@ -162,7 +152,7 @@
 
                      address : [
                         { required: true, message: 'The address cannot be empty', trigger: 'blur' }
-                    ], 
+                    ],
 
                     email: [
                         { required: true, message: 'Mailbox cannot be empty', trigger: 'blur' },
@@ -177,11 +167,11 @@
                        postal_code: [
                         { required: true, message: 'Please enter your postal_code', trigger: 'change' }
                     ]
-                  
+
                 }
             }
         },
-     
+
 
         created() {
               this.token = window.Laravel.csrfToken;
@@ -200,7 +190,7 @@
             },
 
             handleSubmit (name) {
-               
+
                 this.$refs[name].validate( async (valid) => {
                     if (valid) {
                         if(this.updateId !=="") {
@@ -213,11 +203,11 @@
                                 this.isAddingRsm=false;
                                 this.isHeadinSend=false
                                 this.$refs[name].resetFields();
-                               
+
                             } else {
                                 this.$Message.error('Fail!');
                             }
-                           
+
                         } else {
                              this.isHeadinSend = true
                              const res = await this.resumeApi('post', '/resume/create', this.formValidate)
@@ -232,7 +222,7 @@
                                 this.$Message.error('Fail!');
                             }
                         }
-                        
+
                     } else {
                         this.$Message.error('Fail!');
                     }
@@ -243,7 +233,7 @@
             },
 
             experianceData(expData) {
-                
+
                 this.experiance = expData[0]
 
                 this.expNext = expData[1]
@@ -259,7 +249,7 @@
                 }else {
                     this.getSingle(this.resumeEditId);
                 }
-              
+
             },
 
             geteducationData(eduData) {
@@ -268,8 +258,8 @@
                 this.educationData = eduData[2]
                 this.isSkill = eduData[3]
                  this.eduNext = eduData[4]
-            
-               
+
+
                 this.getData()
 
             },
@@ -304,7 +294,7 @@
                 this.skillDatas = finalData[5]
                 this.summaries = finalData[6]
                 this.summariesData = finalData[7]
-               
+
                 this.customs = finalData[8]
 
                 this.customDatas = finalData[9]
@@ -318,7 +308,7 @@
            async getSingle(id) {
                if(id !== null) {
                    this.updateId = id;
-                   await this.getResume(this.updateId);  
+                   await this.getResume(this.updateId);
                } else {
                    console.log("these si not id")
                }
@@ -326,7 +316,7 @@
 
             handleSuccess (res, file) {
                 this.$refs.uploads.clearFiles();
-                this.formValidate.profile_img = `/uploads/${res}`;
+                this.resume.profile_img = `/uploads/${res}`;
                 // file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
                 // file.name = '7eb99afb9d5f317c912f08b5212fd69a';
             },
@@ -348,15 +338,16 @@
             },
 
            async handleRemove() {
-               let image = this.formValidate.profile_img;
-               this.formValidate.profile_img = "";
+               let image = this.resume.profile_img;
+               this.resume.profile_img = "";
               const res = await this.resumeApi('post', '/resume/profile_img', {profile_img:image} );
               if(res.status !=200) {
-                  this.formValidate.profile_img = image;
+                  this.resume.profile_img = image;
               }
             },
 
             async getResume(id) {
+                return;
                 const res = await this.resumeApi('get', '/resume/'+id+'');
                 this.formValidate = res.data;
 

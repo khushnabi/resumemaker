@@ -7,7 +7,7 @@ use App\Experience;
 
 use Illuminate\Http\Request;
 
-class ExperianceController extends Controller
+class ExperienceController extends Controller
 {
     // public function index($resume_id) {
     //     $resume = Resume::findById($resume_id);
