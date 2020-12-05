@@ -23,15 +23,10 @@
 
 
 <script>
-    // import Experiance from "./Exxperiance.vue"
+    import Axios from 'axios'
     export default {
-        props:{
-            resume_data:Object,
-            notFinalize:Boolean
-            },
-    //    components: {
-    //        Experiance
-    //    },
+        props:['resumeId','notFinalize'],
+
         data () {
             return {
                 sumarySending:false,
@@ -56,8 +51,8 @@
 
 
       async mounted() {
-            await this.getResumeData()
-            this.getData()
+            // await this.getResumeData()
+            // this.getData()
         },
 
         methods: {
@@ -70,29 +65,32 @@
                
                this.$refs[name].validate( async (valid) => {
                     if (valid) {
-                          this.sumarySending = true;
-                          const res = await this.resumeApi('post', `/resume/${this.resume_data.id}/summary/create`, this.summaries);
-
-                          if(res.status===201) {
-                               await this.getResumeData()
-                               this.$Message.success('Success!');
-                               this.isAddingEdu = false;
-                               this.getData()
-                               this.$refs[name].resetFields();
-                               this.sumarySending = false
-                               this.addSummary = false
-                       } else {
+                        try {
+                            this.sumarySending = true;
+                            const res = await Axios.post(`/api/resumes/${this.resumeId}/summaries`, this.summaries);
+                            console.log(res.data)
+                            await this.getResumeData();
+                            this.$Message.success('Success!');
+                            this.isAddingEdu = false;
+                            this.getData()
+                            this.$refs[name].resetFields();
+                            this.sumarySending = false
+                            this.addSummary = false
+                        } catch {
                             this.$Message.error('Fail!');
-                       }
-                            
+                        }
+                          
                   } else {
                        this.$Message.error('Fail!');
                   }
                })
         },
          async getResumeData() {
-                 const res = await this.resumeApi('get', `/resume/${this.resume_data.id}`);
-                 this.summariesData = res.data.summaries;
+                 const { data } = await Axios.get(`/api/resumes/${this.resumeId}`);
+                 console.log("hellow i ma form reume")
+                 console.log(data)
+                 this.summariesData = data.summaries;
+                 console.log(this.summariesData)
             },
 
             nextToFinalize() {

@@ -12,7 +12,7 @@ class ResumeController extends Controller
     public function index(Request $request){
         return Resume::orderBy('id', 'desc')->get();
     }
-    public function store() {
+    public function store(Request $request) {
         return Resume::create($request->all());
     }
     public function update(Request $request, $id){

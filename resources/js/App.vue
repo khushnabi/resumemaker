@@ -19,7 +19,6 @@
                 <div slot="trigger"></div>
             </Sider>
             <Layout :style="{padding:'15px'}">
-                <Header class="layout-header-bar"></Header>
                  <Breadcrumb :style="{ margin: '24px 0'}">
                         <BreadcrumbItem>Home</BreadcrumbItem>
                         <BreadcrumbItem>Components</BreadcrumbItem>

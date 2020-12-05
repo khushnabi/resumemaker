@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Resume;
+use App\Summary;
 
 use Illuminate\Http\Request;
 

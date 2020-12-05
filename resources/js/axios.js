@@ -6,8 +6,8 @@ export default {
 
         }
     },
-    methods: {
-        resumeApi(method, url, dataobj) {
+  methods: {
+         resumeApi(method, url, dataobj) {
             return Axios({
                 method: method,
                 url: url,

@@ -1,26 +1,26 @@
 <template>
     <div>
-       <div v-if="expNext">
+           <div v-if="expNext">
            Experiance
-           <Experiance :notFinalize="notFinalize" :resume_data="resume_data" v-on:expData="experianceData($event)" ></Experiance>
+           <Experiance :notFinalize="notFinalize" :resumeId="resumeId" v-on:expData="experianceData($event)" ></Experiance>
        </div>
 
        <div v-else-if="eduNext">
            Education
-            <Education :notFinalize="notFinalize" :resume_data="resume_data" v-on:eduData="geteducationData($event)" ></Education>
+            <Education :notFinalize="notFinalize" :resumeId="resumeId" v-on:eduData="geteducationData($event)" ></Education>
        </div>
 
        <div v-else-if="isSkill">
            Skill
-            <Skill :notFinalize="notFinalize" :resume_data="resume_data" v-on:skillData="skillsData($event)" ></Skill>
+            <Skill :notFinalize="notFinalize" :resumeId="resumeId" v-on:skillData="skillsData($event)" ></Skill>
        </div>
 
        <div v-else-if="isSummary">
-           <Summary :notFinalize="notFinalize" :resume_data="resume_data" v-on:summaryData="getSummary($event)" ></Summary>
+           <Summary :notFinalize="notFinalize" :resumeId="resumeId" v-on:summaryData="getSummary($event)" ></Summary>
        </div>
 
        <div v-else-if="final">
-           <Finalize :resume_data="resume_data" v-on:finalData="getFinal($event)" ></Finalize>
+           <Finalize :resumeId="resumeId" v-on:finalData="getFinal($event)" ></Finalize>
 
        </div>
 
@@ -89,6 +89,8 @@
     </div>
 </template>
 <script>
+
+    import Axios from 'axios'
     import Education from "./Education.vue";
     import Experiance from "./Experiance.vue";
     import Skill from "./Skill.vue";
@@ -128,7 +130,7 @@
                 summariesData:[],
                 customs:{},
                 customDatas:[],
-
+                resumeId:null,
                 formValidate: {
                     profile_img:'',
                     first_name: 'ddjkf',
@@ -137,7 +139,7 @@
                     city: 'dfd',
                     postal_code: '44354',
                     phone: '834985',
-                    email: "dfd@dgmil.com",
+                    email: "dfddtdsyujkp@hsda.com",
                     created_at:'',
 
 
@@ -178,8 +180,8 @@
         },
 
         mounted() {
-            this.resumeEditId = this.editId
-            this.getSingle(this.resumeEditId);
+            // this.resumeEditId = this.editId
+            // this.getSingle(this.resumeEditId);
 
         },
 
@@ -191,34 +193,38 @@
 
             handleSubmit (name) {
 
-                this.$refs[name].validate( async (valid) => {
+                this.$refs[name].validate( async (valid) => {   
+                    console.log(this.resume)
                     if (valid) {
-                        if(this.updateId !=="") {
-                            this.isHeadinSend=true;
-                            const res = await this.resumeApi('post', '/resume/'+this.updateId+'/edit', this.formValidate);
-                            if(res.status===200) {
-                                 this.resume_data = this.formValidate;
+                        if(this.editId !== null) {
+                            try {
+                                this.isHeadinSend = true
+                                const { data } = await Axios.put(`/api/resumes/${this.editId}`, this.resume);
+                                console.log('from updatd resume')
+                                this.resumeId = this.editId;
+                                console.log(this.resumeId)
                                 this.$Message.success('updated!');
                                 this.expNext = true;
                                 this.isAddingRsm=false;
                                 this.isHeadinSend=false
                                 this.$refs[name].resetFields();
-
-                            } else {
+                            } catch(err) {
                                 this.$Message.error('Fail!');
                             }
 
+                        
                         } else {
-                             this.isHeadinSend = true
-                             const res = await this.resumeApi('post', '/resume/create', this.formValidate)
-                             if(res.status===201) {
-                                 this.resume_data = res.data
-                                this.$Message.success('Success!');
+                                
+                              try {
+                                this.isHeadinSend = true
+                                const { data } = await Axios.post('/api/resumes', this.resume);
+                                this.resumeId = data.id;
+                                this.$Message.success('created!');
                                 this.expNext = true;
-                                this.isAddingRsm = false;
-                                this.isHeadinSend = false
+                                this.isAddingRsm=false;
+                                this.isHeadinSend=false
                                 this.$refs[name].resetFields();
-                            } else {
+                            } catch(err) {
                                 this.$Message.error('Fail!');
                             }
                         }
@@ -347,16 +353,17 @@
             },
 
             async getResume(id) {
-                return;
-                const res = await this.resumeApi('get', '/resume/'+id+'');
-                this.formValidate = res.data;
+                console.log("i am from fetching one data with help of id")
+                const { data } = await Axios.get(`/api/resumes/${id}`);
+                console.log(data);
+                this.resume_data = data;
 
-                this.summariesData = res.data.summaries;
-                this.isGetExpData = res.data.experiences;
-                this.educationData = res.data.educations
-                this.skillDatas = res.data.skills;
-                this.summaryData = res.data.summaries
-                this.getData()
+                // this.summariesData = res.data.summaries;
+                // this.isGetExpData = res.data.experiences;
+                // this.educationData = res.data.educations
+                // this.skillDatas = res.data.skills;
+                // this.summaryData = res.data.summaries
+                // this.getData()
             }
         }
     }

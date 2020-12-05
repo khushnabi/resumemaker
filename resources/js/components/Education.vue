@@ -64,15 +64,12 @@
     </div>
 </template>
 <script>
-    // import Experiance from "./Exxperiance.vue"
+
+    import Axios from 'axios'
+
     export default {
-        props:{
-            resume_data:Object,
-            notFinalize:Boolean
-            },
-    //    components: {
-    //        Experiance
-    //    },
+        props:['resumeId', 'notFinalize'],
+   
         data () {
             return {
                 eduSending:false,
@@ -127,16 +124,16 @@
                
                 this.$refs[name].validate( async (valid) => {
                     if (valid) {
+                        try {
                             this.eduSending = true
-                            const res = await this.resumeApi('post', `/resume/${this.resume_data.id}/education/create`, this.educations);
-                            if(res.status===201) {
-                                await this.getResumeData()
-                                this.$Message.success('Success!');
-                                this.isAddingEdu = false;
-                                this.getData()
-                                this.$refs[name].resetFields();
-                                this.eduSending=false
-                        } else {
+                            const res = await Axios.post(`/api/resumes/${this.resumeId}/educations`, this.educations);
+                            await this.getResumeData()
+                            this.$Message.success('Success!');
+                            this.isAddingEdu = false;
+                            this.getData()
+                            this.$refs[name].resetFields();
+                            this.eduSending=false
+                        } catch {
                             this.$Message.error('Fail!');
                         }
                             
@@ -152,8 +149,8 @@
             },
 
             async getResumeData() {
-                 const res = await this.resumeApi('get', `/resume/${this.resume_data.id}`);
-                 this.educationData = res.data.educations;
+                  const { data } = await Axios.get(`/api/resumes/${this.resumeId}`);
+                 this.educationData = data.educations;
             },
 
             async getExperianceData() {

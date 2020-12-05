@@ -1,29 +1,29 @@
 <template>
     <div>
 
-       
+       {{resumeId}}
 
        <div>
            Experiance
-           <Experiance  :notFinalize="notFinalize" :resume_data="resume_data" v-on:expData="experianceData($event)" ></Experiance>
+           <Experiance  :notFinalize="notFinalize" :resumeId="resumeId" v-on:expData="experianceData($event)" ></Experiance>
        </div>
        <hr />
        <div>
            Education
-            <Education  :notFinalize="notFinalize" :resume_data="resume_data" v-on:eduData="geteducationData($event)" ></Education>
+            <Education  :notFinalize="notFinalize" :resumeId="resumeId" v-on:eduData="geteducationData($event)" ></Education>
        </div>
           <hr />
        <div>
            Skill
-            <Skill  :notFinalize="notFinalize" :resume_data="resume_data" v-on:skillData="skillsData($event)" ></Skill>   
+            <Skill  :notFinalize="notFinalize" :resumeId="resumeId" v-on:skillData="skillsData($event)" ></Skill>   
        </div>
            <hr />
        <div>
-           <Summary :notFinalize="notFinalize" :resume_data="resume_data" v-on:summaryData="getSummary($event)" ></Summary> 
+           <Summary :notFinalize="notFinalize" :resumeId="resumeId" v-on:summaryData="getSummary($event)" ></Summary> 
        </div>
         <hr />
        <div>
-           <Custom :notFinalize="notFinalize" :resume_data="resume_data" v-on:customData="getCustomData($event)" ></Custom> 
+           <Custom :notFinalize="notFinalize" :resumeId="resumeId" v-on:customData="getCustomData($event)" ></Custom> 
        </div>
 
         <div>
@@ -44,7 +44,7 @@
     import Custom from "./Custom"
 
     export default {
-         props:['resume_data'],
+         props:['resumeId'],
         components: {
             Education,
             Experiance,

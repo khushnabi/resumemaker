@@ -3,7 +3,7 @@
     <div v-else class="content">
         <Row type="flex" :gutter="15">
             <Col span="12">
-                <Create :resume="resume" />
+                <Create :editId='id' :resume="resume" />
             </Col>
             <Col span="12">
                 <Show :resume="resume" />
@@ -18,13 +18,20 @@ import Show from "../../components/showResume";
 export default {
     components: { Create, Show },
     data() {
-        return { isLoading: true, resume: {} }
+        return { isLoading: true, resume: {}, id:null }
     },
+
     async mounted() {
-        const id = this.$route.params.id;
-        const { data } = await Axios.get(`/api/resumes/${id}`);
-        this.resume = data;
-        this.isLoading = false;
+        if(this.$route.params.id) {
+            this.id = this.$route.params.id;
+            const { data } = await Axios.get(`/api/resumes/${this.id}`);
+            this.resume = data;
+            console.log(this.resume)
+            this.isLoading = false;
+        } else {
+             this.isLoading = false;
+        }
+       
     }
 }
 </script>

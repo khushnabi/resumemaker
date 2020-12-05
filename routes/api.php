@@ -19,5 +19,5 @@ Route::post('/resumes/profile_img', 'ResumeController@deleteImg');
 Route::resource('resumes.experiences', 'ExperienceController');
 Route::resource('resumes.educations', 'EducationController');
 Route::resource('resumes.skills', 'SkillController');
-Route::resource('resume.summaries', 'SummaryController');
-Route::post('/resume/{resume}/custom/create', 'CustomController@store');
+Route::resource('resumes.summaries', 'SummaryController');
+Route::resource('/resumes.customs', 'CustomController');

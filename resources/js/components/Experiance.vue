@@ -1,7 +1,8 @@
 <template>
     <div>
+        {{resumeId}}
        <h1>Experiance</h1>
-        <div v-if="experianceData.length>0">
+        <div v-if="experianceData.length">
             <div v-for="(expData, i) in experianceData" :key="i">
                 {{expData.job_title}}
             </div>
@@ -37,8 +38,6 @@
                 <Checkbox v-model="experiances.work_here">Checkbox</Checkbox>
             </FormItem>
 
-
-
              <FormItem label="Desc" >
                 <Input v-model="experiances.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..." />
             </FormItem>
@@ -58,20 +57,17 @@
     </div>
 </template>
 <script>
-    // import Experiance from "./Exxperiance.vue"
+
+    import Axios from 'axios'
+ 
     export default {
-          props:{
-            resume_data:Object,
-            notFinalize:Boolean
-            },
-    //    components: {
-    //        Experiance
-    //    },
+        props:['resumeId', 'notFinalize'],
+   
         data () {
             return {
                 expsending:false,
                 isAddingExp:false,
-                isnotAdding:false,
+         
                 expNext:true,
                 eduNext:false,
                 experianceData:[],
@@ -118,27 +114,29 @@
         methods: {
 
             getData() {
-                this.$emit("expData", [this.experiances, this.expNext, this.resume_data.id, this.experianceData, this.eduNext]);
+                this.$emit("expData", [this.experiances, this.expNext, this.resumeId, this.experianceData, this.eduNext]);
             },
 
              handleSubmit (name) {
 
                 this.$refs[name].validate( async (valid) => {
                     if (valid) {
+                        try {
                             this.expsending = true
-                            const res = await this.resumeApi('post', `/resume/${this.resume_data.id}/experiance/create`, this.experiances);
-                            if(res.status===201) {
-                                await this.getResumeData()
+                            const res = await Axios.post(`/api/resumes/${this.resumeId}/experiences`, this.experiances);
+                            console.log(res.data)
+                             await this.getResumeData()
                                 this.$Message.success('Success!');
-                                this.isnotAdding=true;
+                            
                                 this.isAddingExp = false;
                                 this.getData()
                                 this.$refs[name].resetFields();
                                 this.expsending = false
-                        } else {
-                            this.$Message.error('Fail!');
-                        }
 
+                        } catch{
+                               this.$Message.error('Fail!');
+                        }
+                            
                     } else {
                         this.$Message.error('Fail!');
                     }
@@ -146,18 +144,14 @@
             },
 
             addExperiance() {
-                this.isnotAdding=false;
                 this.isAddingExp = true
             },
 
             async getResumeData() {
-                 const res = await this.resumeApi('get', `/resume/${this.resume_data.id}`);
-                 this.experianceData = res.data.experiences;
+                 const { data } = await Axios.get(`/api/resumes/${this.resumeId}`);
+                 this.experianceData = data.experiences;
             },
 
-            async getExperianceData() {
-
-        },
 
             nextToEdu() {
                 this.eduNext = true

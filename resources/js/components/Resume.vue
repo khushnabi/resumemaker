@@ -31,7 +31,9 @@
                                 <div>
                                     <h1>Dashboard</h1>
                                 </div>
-                                <div><button class="primary" @click="onCreate">Create new</button></div>
+                                <div>
+                                     <router-link :to="`/resumes/create`"> <Button type="primary">Create new</Button></router-link>
+                                </div>
                         </div>
                         <hr />
                         <div class="show-resumes">
@@ -65,7 +67,8 @@
                                     </div>
                                 <br />
                                 </div>
-                                <Button type="primary" @click="onCreate">Create new</Button>
+                                <router-link :to="`/resumes/create`"> <Button type="primary">Create new</Button></router-link>
+                               
                         </div>
                 </div>
             </div>
@@ -152,6 +155,7 @@ export default {
         async getResumeData() {
             try {
                 const { data } = await Axios.get("/api/resumes");
+                console.log(data)
                 this.resumeDatas = data;
             } catch(err) {
                 this.hasError = true;
@@ -184,16 +188,15 @@ export default {
         },
 
       async onDelete(resume, id, index) {
-
-            this.$set(resume, "isDeleting", true)
-            const res = await this.resumeApi('post', "resume/"+ id +"/delete", resume)
-
-            if(res.status===200) {
+           try {
+                this.$set(resume, "isDeleting", true)
+                const { data } = await Axios.delete(`/api/resumes${id}/delete`);
                 this.resumeDatas.splice(index, 1)
                 this.$Message.success(resume.first_name + ' is deleted!');
                 this.isDeletedModel = false
-            } else {
-                  this.$Message.error('Fail!');
+
+            } catch(err) {
+                this.$Message.error('Fail!');
             }
         }
 

@@ -30,12 +30,9 @@
     </div>
 </template>
 <script>
-    // import Experiance from "./Exxperiance.vue"
+    import Axios from 'axios'
     export default {
-        props:{
-            resume_data:Object,
-            
-            },
+        props:['resumeId'],
     //    components: {
     //        Experiance
     //    },
@@ -85,19 +82,21 @@
                
                 this.$refs[name].validate( async (valid) => {
                     if (valid) {
+                        try {
                             this.eduSending = true
-                            const res = await this.resumeApi('post', `/resume/${this.resume_data.id}/custom/create`, this.customs);
-                            if(res.status===201) {
-                                await this.getResumeData()
-                                this.$Message.success('Success!');
-                                this.addingcustom = false;
-                                this.getData()
-                                this.$refs[name].resetFields();
-                                this.eduSending=false
-                        } else {
+                            const res = await Axios.post(`/api/resumes/${this.resumeId}/customs`, this.customs);
+                            await this.getResumeData()
+                            this.$Message.success('Success!');
+                            this.addingcustom = false;
+                            this.getData()
+                            this.$refs[name].resetFields();
+                            this.eduSending=false
+
+                        } catch {
                             this.$Message.error('Fail!');
+
                         }
-                            
+
                     } else {
                         this.$Message.error('Fail!');
                     }
@@ -105,10 +104,11 @@
             },
             
             async getResumeData() {
-                 const res = await this.resumeApi('get', `/resume/${this.resume_data.id}`);
-                 console.log("hellow form custom")
-                 this.customData = res.data.customs
-                 this.getData();
+                 const { data } = await Axios.get(`/api/resumes/${this.resumeId}`);
+                 console.log("hellow i ma form reume")
+                 console.log(data)
+                 this.customData = data.customs;
+                 console.log(this.customData)
                 
             },
 

@@ -19,23 +19,24 @@
             <div v-if="experiences.length">
                 <hr />
                 <h2>experiance</h2>
-                <div :key="experience.id" v-for="experience in experiences"></div>
-                <h3> {{experiance.job_title}}</h3>
-                <p> {{experiance.employer}}</p>
-                <p> {{experiance.city}}</p>
-                <p> {{experiance.start_at}} {{experiance.start_at}} {{ experiance.work_here && "present" || experiance.end_at}}</p>
-                <p>{{experiance.description}}</p>
+                <div :key="experience.id" v-for="experience in experiences">
+                    <h3> {{experience.job_title}}</h3>
+                    <p> {{experience.employer}}</p>
+                    <p> {{experience.city}}</p>
+                    <p> {{experience.start_at}} {{experience.start_at}} {{ experience.work_here && "present" || experience.end_at}}</p>
+                    <p>{{experience.description}}</p>
+                </div>
             </div>
 
             <div v-if="educations.length">
                 <hr>
                 <h3>educations</h3>
                 <div :key="education.id" v-for="education in educations">
-                    <h3>{{educations.school}}</h3>
-                    <p>{{educations.degree}}</p>
-                    <p>{{educations.city}}</p>
-                    <p>{{educations.graduated_at}}</p>
-                    <p>{{educations.description}}</p>
+                    <h3>{{education.school}}</h3>
+                    <p>{{education.degree}}</p>
+                    <p>{{education.city}}</p>
+                    <p>{{education.graduated_at}}</p>
+                    <p>{{education.description}}</p>
                 </div>
             </div>
             <div v-if="skills.length">

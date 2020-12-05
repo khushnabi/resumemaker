@@ -32,15 +32,11 @@
 
 
 <script>
-    // import Experiance from "./Exxperiance.vue"
+    import Axios from 'axios'
+
     export default {
-         props:{
-            resume_data:Object,
-            notFinalize:Boolean
-            },
-    //    components: {
-    //        Experiance
-    //    },
+     props:['resumeId', 'notFinalize'],
+   
         data () {
             return {
               skillSending:false,
@@ -78,31 +74,30 @@
                
                this.$refs[name].validate( async (valid) => {
                     if (valid) {
-                         this.skillSending = true
-                          const res = await this.resumeApi('post', `/resume/${this.resume_data.id}/skill/create`, this.skills);
-
-                          if(res.status===201) {
-                               await this.getResumeData()
-                               this.$Message.success('Success!');
-                              this.isAddingEdu = false;
-                               this.getData()
-                               this.$refs[name].resetFields();
-                               this.skillSending = false
-                               this.addSkill = false
-                                this.skills.level = ""
-                       } else {
-                            this.$Message.error('Fail!');
-                       }
-                            
+                        try {
+                            this.skillSending = true
+                            const res = await Axios.post(`/api/resumes/${this.resumeId}/skills`, this.skills); await this.getResumeData()
+                            this.$Message.success('Success!');
+                            this.isAddingEdu = false;
+                            this.getData()
+                            this.$refs[name].resetFields();
+                            this.skillSending = false
+                            this.addSkill = false
+                            this.skills.level = ""
+                        } catch {
+                              this.$Message.error('Fail!');
+                        }
+                        
                   } else {
                        this.$Message.error('Fail!');
                   }
                })
         },
          async getResumeData() {
-                 const res = await this.resumeApi('get', `/resume/${this.resume_data.id}`);
-                 this.skillDatas = res.data.skills;
-            },
+                 const { data } = await Axios.get(`/api/resumes/${this.resumeId}`);
+                 this.skillDatas = data.skills;
+                 console.log(this.skillDatas)
+            },  
 
             nextToSummary() {
                 this.isSummary = true;

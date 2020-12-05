@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Resume;
-
+use App\Custom;
 use Illuminate\Http\Request;
 
 class CustomController extends Controller
