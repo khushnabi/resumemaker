@@ -27,7 +27,7 @@
                     </div>
                 </div>
             
-                <div v-if="resumes.educations.length>0">
+                <div v-if="resumes.educations.length">
                     <hr>
                     <h3>educations</h3>
                     <div v-for="(edu, i) in resumes.educations" :key="i">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <div v-if="resumes.customs.length>0">
+                <div v-if="resumes.customs.length">
                     <hr />
                         <h4>Customs</h4>
                     <div v-for="(custom, i) in resumes.customs" :key="i">
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import Axios from 'axios';
 export default {
     data() {
         return {
@@ -81,8 +82,8 @@ export default {
     },
 
      async mounted() {
-           const res = await this.resumeApi('get', '/resume/'+this.id+'');
-           this.resumes = res.data;
+           const { data } = await Axios.get('/api/resumes/'+this.id+'');
+           this.resumes = data;
             console.log(this.resumes.experiences)
             console.log(this.resumes.educations)
             console.log(this.resumes.skills)

@@ -1,29 +1,24 @@
 <template>
     <div>
-
-       {{resumeId}}
-
+      
        <div>
-           Experiance
-           <Experiance  :notFinalize="notFinalize" :resumeId="resumeId" v-on:expData="experianceData($event)" ></Experiance>
+           <Experiance  :experiance="experiance" :resumeId="resumeId" v-on:expData="experianceData($event)" ></Experiance>
        </div>
        <hr />
        <div>
-           Education
-            <Education  :notFinalize="notFinalize" :resumeId="resumeId" v-on:eduData="geteducationData($event)" ></Education>
+            <Education :education="education" :resumeId="resumeId" v-on:eduData="geteducationData($event)" ></Education>
        </div>
           <hr />
        <div>
-           Skill
-            <Skill  :notFinalize="notFinalize" :resumeId="resumeId" v-on:skillData="skillsData($event)" ></Skill>   
+            <Skill :skill="skill" :resumeId="resumeId" v-on:skillData="skillData($event)" ></Skill>   
        </div>
            <hr />
        <div>
-           <Summary :notFinalize="notFinalize" :resumeId="resumeId" v-on:summaryData="getSummary($event)" ></Summary> 
+           <Summary :summary="summary" :resumeId="resumeId" v-on:summaryData="getSummary($event)" ></Summary> 
        </div>
         <hr />
        <div>
-           <Custom :notFinalize="notFinalize" :resumeId="resumeId" v-on:customData="getCustomData($event)" ></Custom> 
+           <Custom :custom="custom" :resumeId="resumeId" v-on:customData="getCustomData($event)" ></Custom> 
        </div>
 
         <div>
@@ -44,7 +39,7 @@
     import Custom from "./Custom"
 
     export default {
-         props:['resumeId'],
+         props:['resumeId','education','experiance','skill','custom','summary'],
         components: {
             Education,
             Experiance,
@@ -55,6 +50,7 @@
         data () {
             return {
                notFinalize:false,
+               resume:{},
                isGetExpData:[],
                experiances:{},
                educations:{},
@@ -78,39 +74,32 @@
 
         methods: {
             getData() {
-                this.$emit("finalData", [this.experiances, this.isGetExpData, this.educationData, this.educations, this.skills, this.skillDatas, this.summaries, this.summariesData, this.customs, this.customDatas]);
+                this.$emit("finalData", this.resume);
             },
 
         
             experianceData(expData) {
-                this.experiances = expData[0]
-                this.isGetExpData = expData[3]
+                this.resume = expData
                 this.getData()
             },
 
             geteducationData(eduData) {
-                this.educations = eduData[0]
-                this.educationData = eduData[2]
+                this.resume = eduData
                 this.getData()
 
             },
 
-            skillsData(skillData) {
-                this.skills = skillData[0];
-                this.skillDatas = skillData[1];
+            skillData(skillData) {
+                this.resume = skillData
                 this.getData()
             },
 
             getSummary(summaryData) {
-                 this.summaries = summaryData[0];
-                this.summariesData = summaryData[1];
+                this.resume = summaryData
                 this.getData()
             },
             getCustomData(customData) {
-                console.log("customs data")
-                this.customs = customData[0];
-                this.customDatas = customData[1]
-                console.log(this.customDatas)
+                this.resume = customData
                  this.getData()
             },
             chooseTemplet() {

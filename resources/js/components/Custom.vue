@@ -1,23 +1,27 @@
 <template>
     <div>
 
-       <h1>Education</h1>
-      
+       <h1>custom</h1>
+         <div  v-if="customDatas.length>0">
+            <div v-for="(custom, i) in customDatas" :key="i">
+                {{custom.name}}
+            </div>
+        </div>
         <div>
             <Button type="primary" @click="addCustom">Add custom</Button>
         </div>
         <div v-if="addingcustom">
-            <Form ref="customs" :model="customs" :rules="ruleValidate">
+            <Form ref="custom" :model="custom" :rules="ruleValidate">
                 <FormItem label="name" prop="name">
-                    <Input v-model="customs.name" @input="getData()" placeholder="job title" />
+                    <Input v-model="custom.name" @input="inputEvent()" placeholder="job title" />
                 </FormItem>
 
                 <FormItem label="start_at" prop="start_at">
-                    <Input v-model="customs.start_at"  @input="getData()"  type="date" placeholder="start at" />
+                    <Input v-model="custom.start_at"  @input="inputEvent()"  type="date" placeholder="start at" />
                 </FormItem>
 
                 <FormItem>
-                    <Button type="primary" :loading="eduSending" @click="handleSubmit('customs')">Next</Button>
+                    <Button type="primary" :loading="customSending" @click="handleSubmit('custom')">Next</Button>
                 </FormItem>
             </Form>
 
@@ -32,19 +36,17 @@
 <script>
     import Axios from 'axios'
     export default {
-        props:['resumeId'],
+        props:['resumeId','custom'],
     //    components: {
     //        Experiance
     //    },
         data () {
             return {
                 addingcustom:false,
-                customData:[],
-                eduSending:false,
-                customs: {
-                    name:'',
-                    start_at: null,
-                },
+                customDatas:[],
+                customSending:false,
+                resume:{},
+              
                 ruleValidate: {
                     school : [
                         { required: true, message: 'The first name cannot be empty', trigger: 'blur' }
@@ -72,10 +74,12 @@
         },
 
         methods: {
-
+            inputEvent() {
+                this.customSending = false
+            },
             getData() {
                 console.log(this.customs)
-                this.$emit("customData", [this.customs, this.customData]);
+                this.$emit("customData", this.resume);
             },
 
              handleSubmit (name) {
@@ -83,14 +87,13 @@
                 this.$refs[name].validate( async (valid) => {
                     if (valid) {
                         try {
-                            this.eduSending = true
-                            const res = await Axios.post(`/api/resumes/${this.resumeId}/customs`, this.customs);
+                            this.customSending = true
+                            const res = await Axios.post(`/api/resumes/${this.resumeId}/customs`, this.custom);
                             await this.getResumeData()
                             this.$Message.success('Success!');
                             this.addingcustom = false;
-                            this.getData()
                             this.$refs[name].resetFields();
-                            this.eduSending=false
+                            this.customSending=false
 
                         } catch {
                             this.$Message.error('Fail!');
@@ -106,9 +109,9 @@
             async getResumeData() {
                  const { data } = await Axios.get(`/api/resumes/${this.resumeId}`);
                  console.log("hellow i ma form reume")
-                 console.log(data)
-                 this.customData = data.customs;
-                 console.log(this.customData)
+                 this.customDatas = data.customs;
+                 this.resume = data
+                 this.getData()
                 
             },
 

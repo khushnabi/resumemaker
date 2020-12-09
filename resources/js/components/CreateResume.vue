@@ -1,32 +1,9 @@
 <template>
     <div>
-           <div v-if="expNext">
-           Experiance
-           <Experiance :notFinalize="notFinalize" :resumeId="resumeId" v-on:expData="experianceData($event)" ></Experiance>
-       </div>
 
-       <div v-else-if="eduNext">
-           Education
-            <Education :notFinalize="notFinalize" :resumeId="resumeId" v-on:eduData="geteducationData($event)" ></Education>
-       </div>
-
-       <div v-else-if="isSkill">
-           Skill
-            <Skill :notFinalize="notFinalize" :resumeId="resumeId" v-on:skillData="skillsData($event)" ></Skill>
-       </div>
-
-       <div v-else-if="isSummary">
-           <Summary :notFinalize="notFinalize" :resumeId="resumeId" v-on:summaryData="getSummary($event)" ></Summary>
-       </div>
-
-       <div v-else-if="final">
-           <Finalize :resumeId="resumeId" v-on:finalData="getFinal($event)" ></Finalize>
-
-       </div>
-
-       <div v-else>
-           {{resumeEditId}}
-                  <Upload
+       <div>
+               
+                <Upload
                     ref="uploads"
                     :on-success="handleSuccess"
                     :format="['jpg','jpeg','png']"
@@ -51,13 +28,13 @@
                             </div>
                     </div>
 
-              <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
+              <Form ref="resume" :model="resume" :rules="ruleValidate">
             <FormItem label="first name" prop="first_name">
-                <Input v-model="resume.first_name" @input="getData()" placeholder="first name" />
+                <Input v-model="resume.first_name" @input="inputEvent()" placeholder="first name" />
             </FormItem>
 
               <FormItem label="last names" prop="last_name">
-                <Input v-model="resume.last_name"  @input="getData()" placeholder="last name" />
+                <Input v-model="resume.last_name"  @input="inputEvent()" placeholder="last name" />
             </FormItem>
 
               <FormItem label="address" prop="address">
@@ -65,23 +42,23 @@
             </FormItem>
 
              <FormItem label="City" prop="city">
-               <Input v-model="resume.city" @input="getData()" placeholder="Enter your city" />
+               <Input v-model="resume.city" @input="inputEvent()" placeholder="Enter your city" />
             </FormItem>
 
             <FormItem label="postalCode" prop="postal_code">
-               <Input type="number" v-model="resume.postal_code" @input="getData()" placeholder="postal code" />
+               <Input type="number" v-model="resume.postal_code" @input="inputEvent()" placeholder="postal code" />
             </FormItem>
 
             <FormItem label="phone" prop="phone">
-                <Input type="number" v-model="resume.phone" @input="getData()" placeholder="phone" />
+                <Input type="number" v-model="resume.phone" @input="inputEvent()" placeholder="phone" />
             </FormItem>
 
             <FormItem label="E-mail" prop="email">
-                <Input v-model="resume.email" @input="getData()" placeholder="Enter your e-mail" />
+                <Input v-model="resume.email" @input="inputEvent()" placeholder="Enter your e-mail" />
             </FormItem>
 
             <FormItem>
-                <Button type="primary" :loading="isHeadinSend" @click="handleSubmit('formValidate')">Next</Button>
+                <Button type="primary" :loading="isHeadinSend" @click="handleSubmit('resume')">Next</Button>
                 <!-- <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button> -->
             </FormItem>
         </Form>
@@ -91,59 +68,22 @@
 <script>
 
     import Axios from 'axios'
-    import Education from "./Education.vue";
-    import Experiance from "./Experiance.vue";
-    import Skill from "./Skill.vue";
-    import Summary from "./Summary";
-    import Finalize from "./Finalize"
+  
 
     export default {
-        props:['editId','emptyFormField', "resume"],
+        props:['editId', "resume"],
         token:"",
-        components: {
-            Experiance,
-            Education,
-            Skill,
-            Summary,
-            Finalize
-        },
+       
         data () {
             return {
                 notFinalize:true,
                 isHeadinSend:false,
-                eduNext:false,
-                isSummary:false,
-                skills:{},
-                skillDatas:[],
-                final:false,
-                educations:{},
-                isSkill:false,
-                isGetExpData:[],
-                educationData:[],
                 resume_data:{},
                 updateId:"",
-                expNext: false,
                 resumeEditId:null,
-                experiance:{},
                 isAddingRsm:true,
-                summaries:{},
-                summariesData:[],
-                customs:{},
-                customDatas:[],
                 resumeId:null,
-                formValidate: {
-                    profile_img:'',
-                    first_name: 'ddjkf',
-                    last_name: 'djfkdl',
-                    address: 'dffdk',
-                    city: 'dfd',
-                    postal_code: '44354',
-                    phone: '834985',
-                    email: "dfddtdsyujkp@hsda.com",
-                    created_at:'',
-
-
-                },
+               
                 ruleValidate: {
                     first_name : [
                         { required: true, message: 'The first name cannot be empty', trigger: 'blur' }
@@ -179,17 +119,8 @@
               this.token = window.Laravel.csrfToken;
         },
 
-        mounted() {
-            // this.resumeEditId = this.editId
-            // this.getSingle(this.resumeEditId);
-
-        },
 
         methods: {
-
-            getData() {
-                this.$emit("data", [this.formValidate, this.experiance, this.isGetExpData, this.educationData, this.educations, this.skills, this.skillDatas, this.summaries, this.summariesData, this.customs, this.customDatas]);
-            },
 
             handleSubmit (name) {
 
@@ -200,11 +131,11 @@
                             try {
                                 this.isHeadinSend = true
                                 const { data } = await Axios.put(`/api/resumes/${this.editId}`, this.resume);
-                                console.log('from updatd resume')
                                 this.resumeId = this.editId;
-                                console.log(this.resumeId)
+                                 if(this.resumeId !==null) {
+                                    this.$router.push(`/resumes/${this.resumeId}/experiance`) 
+                                }
                                 this.$Message.success('updated!');
-                                this.expNext = true;
                                 this.isAddingRsm=false;
                                 this.isHeadinSend=false
                                 this.$refs[name].resetFields();
@@ -219,8 +150,10 @@
                                 this.isHeadinSend = true
                                 const { data } = await Axios.post('/api/resumes', this.resume);
                                 this.resumeId = data.id;
+                                if(this.resumeId) {
+                                   this.$router.push(`/resumes/${this.resumeId}/experiance`)  
+                                }
                                 this.$Message.success('created!');
-                                this.expNext = true;
                                 this.isAddingRsm=false;
                                 this.isHeadinSend=false
                                 this.$refs[name].resetFields();
@@ -238,87 +171,12 @@
                 this.$refs[name].resetFields();
             },
 
-            experianceData(expData) {
+        
 
-                this.experiance = expData[0]
-
-                this.expNext = expData[1]
-
-                this.resumeEditId = expData[2]
-
-                this.isGetExpData = expData[3]
-
-                this.eduNext = expData[4]
-
-                if(this.editId !== this.resumeEditId) {
-                    this.getSingle(this.resumeEditId);
-                }else {
-                    this.getSingle(this.resumeEditId);
-                }
-
+            inputEvent() {
+                this.isHeadinSend=false
             },
 
-            geteducationData(eduData) {
-                this.educations = eduData[0]
-                this.expNext=eduData[1]
-                this.educationData = eduData[2]
-                this.isSkill = eduData[3]
-                 this.eduNext = eduData[4]
-
-
-                this.getData()
-
-            },
-
-            skillsData(skillData) {
-                this.skills = skillData[0];
-                this.skillDatas = skillData[1];
-                this.expNext = skillData[2];
-                this.eduNext = skillData[3];
-                this.isSkill = skillData[4];
-                this.isSummary = skillData[5];
-                this.getData()
-            },
-
-            getSummary(summaryData) {
-                 this.summaries = summaryData[0];
-                this.summariesData = summaryData[1];
-                this.expNext = summaryData[2];
-                this.eduNext = summaryData[3];
-                this.isSkill = summaryData[4];
-                this.isSummary = summaryData[5];
-                this.final = summaryData[6]
-                this.getData()
-            },
-
-            getFinal(finalData) {
-                this.experiance = finalData[0]
-                this.isGetExpData=finalData[1]
-                this.educationData=finalData[2]
-                this.educations = finalData[3]
-                this.skills = finalData[4]
-                this.skillDatas = finalData[5]
-                this.summaries = finalData[6]
-                this.summariesData = finalData[7]
-
-                this.customs = finalData[8]
-
-                this.customDatas = finalData[9]
-                console.log("hellow from heading custom data")
-                console.log(this.customs)
-                console.log(this.customDatas)
-                 this.getData()
-            },
-
-
-           async getSingle(id) {
-               if(id !== null) {
-                   this.updateId = id;
-                   await this.getResume(this.updateId);
-               } else {
-                   console.log("these si not id")
-               }
-            },
 
             handleSuccess (res, file) {
                 this.$refs.uploads.clearFiles();
@@ -358,12 +216,6 @@
                 console.log(data);
                 this.resume_data = data;
 
-                // this.summariesData = res.data.summaries;
-                // this.isGetExpData = res.data.experiences;
-                // this.educationData = res.data.educations
-                // this.skillDatas = res.data.skills;
-                // this.summaryData = res.data.summaries
-                // this.getData()
             }
         }
     }

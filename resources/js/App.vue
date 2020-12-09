@@ -18,12 +18,8 @@
                 </Menu>
                 <div slot="trigger"></div>
             </Sider>
-            <Layout :style="{padding:'15px'}">
-                 <Breadcrumb :style="{ margin: '24px 0'}">
-                        <BreadcrumbItem>Home</BreadcrumbItem>
-                        <BreadcrumbItem>Components</BreadcrumbItem>
-                        <BreadcrumbItem>Layout</BreadcrumbItem>
-                </Breadcrumb>
+            <Layout :style="{padding:'45px'}">
+
                 <Content :style="{background: '#fff', minHeight: '220px'}">
                           <router-view></router-view>
                 </Content>
