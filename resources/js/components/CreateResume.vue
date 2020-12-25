@@ -71,7 +71,7 @@
   
 
     export default {
-        props:['editId', "resume"],
+        props:['editId', "resume", "templete"],
         token:"",
        
         data () {
@@ -116,6 +116,7 @@
 
 
         created() {
+            this.resume.templete = this.templete
               this.token = window.Laravel.csrfToken;
         },
 
@@ -125,7 +126,6 @@
             handleSubmit (name) {
 
                 this.$refs[name].validate( async (valid) => {   
-                    console.log(this.resume)
                     if (valid) {
                         if(this.editId !== null) {
                             try {
@@ -133,12 +133,13 @@
                                 const { data } = await Axios.put(`/api/resumes/${this.editId}`, this.resume);
                                 this.resumeId = this.editId;
                                  if(this.resumeId !==null) {
-                                    this.$router.push(`/resumes/${this.resumeId}/experiance`) 
+                                    this.$router.push(`/resumes/${this.templete}/${this.resumeId}/experiance`) 
                                 }
                                 this.$Message.success('updated!');
                                 this.isAddingRsm=false;
                                 this.isHeadinSend=false
                                 this.$refs[name].resetFields();
+                                this.editId =null
                             } catch(err) {
                                 this.$Message.error('Fail!');
                             }
@@ -151,7 +152,7 @@
                                 const { data } = await Axios.post('/api/resumes', this.resume);
                                 this.resumeId = data.id;
                                 if(this.resumeId) {
-                                   this.$router.push(`/resumes/${this.resumeId}/experiance`)  
+                                    this.$router.push(`/resumes/${this.templete}/${this.resumeId}/experiance`)  
                                 }
                                 this.$Message.success('created!');
                                 this.isAddingRsm=false;

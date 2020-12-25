@@ -1,14 +1,14 @@
 <template>
-    <div v-if="isLoading">Please wait while loading</div>
-    <div v-else class="content">
+    <div class="container" v-if="isLoading">Please wait while loading</div>
+    <div v-else class="content container">
                 <Breadcrumb :style="{ margin: '4px 0'}">
                     <BreadcrumbItem>Heading</BreadcrumbItem>
                     <BreadcrumbItem>Experiance</BreadcrumbItem>
                     <BreadcrumbItem>Education</BreadcrumbItem>
                 </Breadcrumb>
         
-        <router-link  :to="`/resumes/${id}/experiance`"><Button type="default" style="margin-left: 8px">prev to experiance</Button></router-link>
-        <router-link  :to="`/resumes/${id}/skill`"><Button type="primary" style="margin-left: 8px">next to skill</Button></router-link>
+        <router-link  :to="`/resumes/${templete}/${id}/experiance`"><Button type="default" style="margin-left: 8px">prev to experiance</Button></router-link>
+        <router-link  :to="`/resumes/${templete}/${id}/skill`"><Button type="primary" style="margin-left: 8px">next to skill</Button></router-link>
 
 
         <Row type="flex" :gutter="15">
@@ -16,7 +16,7 @@
                 <CreateEdu :education="education"  :resumeId='id' v-on:eduData="educationData($event)"/>
             </Col>
             <Col span="12">
-                <Show :resume="resume" :education="education" />
+                <Show :templete='templete' :resume="resume" :education="education" />
             </Col>
         </Row>
     </div>
@@ -24,11 +24,11 @@
 <script>
 import Axios from "axios";
 import CreateEdu from "../../components/Education.vue"
-import Show from "../../components/showResume";
 export default {
-    components: { CreateEdu, Show },
+    components: { CreateEdu },
     data() {
         return {
+            templete:"",
             isLoading: true,
             resume: {},
             education:{
@@ -43,6 +43,8 @@ export default {
     },
 
     async mounted() {
+
+         this.templete=this.$route.params.templete
         if(this.$route.params.id) {
             this.id = this.$route.params.id;
             const { data } = await Axios.get(`/api/resumes/${this.id}`);

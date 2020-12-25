@@ -14,7 +14,7 @@
                         <h1>Dashboard</h1>
                     </div>
                     <div>
-                            <router-link :to="`/resumes/create`"> <Button type="primary">Create new</Button></router-link>
+                        <router-link :to="`/resumes/templates`"> <Button type="primary">Create new</Button></router-link>
                     </div>
                 </div>
                 <hr />
@@ -76,6 +76,10 @@ export default {
 
     },
    async mounted() {
+       console.log(this.a)
+       this.a = "hellow world";
+      
+        console.log("hellow from resume")
         await this.getResumeData();
 
     },

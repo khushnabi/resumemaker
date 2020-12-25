@@ -1,38 +1,19 @@
 <template>
- <div class="layout">
-        <Layout>
-            <Sider breakpoint="md" collapsible :collapsed-width="78">
-                <Menu active-name="1-2" theme="dark" width="auto">
-                    <MenuItem name="1-1">
-                        <Icon type="ios-navigate"></Icon>
-                        <span>Resumes</span>
-                    </MenuItem>
-                    <MenuItem name="1-2">
-                        <Icon type="ios-search"></Icon>
-                        <span>Data</span>
-                    </MenuItem>
-                    <MenuItem name="1-3">
-                        <Icon type="ios-settings"></Icon>
-                        <span>Profile</span>
-                    </MenuItem>
-                </Menu>
-                <div slot="trigger"></div>
-            </Sider>
-            <Layout :style="{padding:'45px'}">
 
-                <Content :style="{background: '#fff', minHeight: '220px'}">
-                          <router-view></router-view>
-                </Content>
-            </Layout>
-        </Layout>
+    <div>
+        <router-view></router-view>
     </div>
+
 </template>
 
 <script>
 export default {
     name:"App"
 }
+
 </script>
+
+
 
 <style scoped>
     .layout{

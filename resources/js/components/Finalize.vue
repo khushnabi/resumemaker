@@ -2,7 +2,7 @@
     <div>
       
        <div>
-           <Experiance  :experiance="experiance" :resumeId="resumeId" v-on:expData="experianceData($event)" ></Experiance>
+           <Experiance :experiance="experiance" :resumeId="resumeId" v-on:expData="experianceData($event)" ></Experiance>
        </div>
        <hr />
        <div>
@@ -21,25 +21,27 @@
            <Custom :custom="custom" :resumeId="resumeId" v-on:customData="getCustomData($event)" ></Custom> 
        </div>
 
-        <div>
-            <Button type="primary" @click="chooseTemplet()">choose templete</Button>
-            <div v-if="isTemplete"><router-link to="resumes/:templete1">templete1</router-link></div>
-        </div>
+       <br />
 
-
+     <router-link :to="`/resumes/${resumeId}/${templete}/download`"><Button type="primary">next to download</Button> </router-link>
           
 
        </div>
 </template>
 <script>
+
+  import { jsPDF } from 'jspdf'
+  import html2canvas from 'html2canvas';
+    import Axios from 'axios'
     import Education from "./Education.vue";
     import Experiance from "./Experiance.vue";
     import Skill from "./Skill.vue";
     import Summary from "./Summary";
-    import Custom from "./Custom"
+    import Custom from "./Custom";
+    import ShowResume from "./showResume"
 
     export default {
-         props:['resumeId','education','experiance','skill','custom','summary'],
+         props:['resumeId','education','experiance','skill','custom','summary','templete'],
         components: {
             Education,
             Experiance,
@@ -77,7 +79,26 @@
                 this.$emit("finalData", this.resume);
             },
 
-        
+        dwonload() {
+             var doc = new jsPDF();
+              var margins = {
+                  top: 80,
+                  bottom: 60,
+                  left: 40,
+                  width: 522
+              };
+      
+              doc.fromHTML(this.$refs.content, margins.left, margins.top,{
+                'width' : margins.width
+              });
+              
+              doc.save('test.pdf');
+
+
+
+            },
+
+
             experianceData(expData) {
                 this.resume = expData
                 this.getData()

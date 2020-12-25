@@ -49,6 +49,16 @@ class ResumeController extends Controller
         return $pickName;
     }
 
+    public function download() {
+
+        $path = public_path().'/resource/js/components/showResume.vue';
+
+        $headers = [
+            'Content-Type' => 'application/pdf',
+        ];
+        return response()->download($request, 'test.pdf', $headers);
+    }
+
     public function deleteImg(Request $request) {
         $fileName = $request->profile_img;
         $filePath = public_path().'/uploads/'.$fileName;

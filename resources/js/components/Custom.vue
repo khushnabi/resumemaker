@@ -5,6 +5,23 @@
          <div  v-if="customDatas.length>0">
             <div v-for="(custom, i) in customDatas" :key="i">
                 {{custom.name}}
+                 <Icon size="20" class="edit" type="md-create" @click="editCustom(custom.id)"/>
+
+                <Icon class="delete" size="20" color="red" type="ios-trash" @click="deleteComfirm(custom)" />
+
+                 <Modal v-model="isDeletedModel" width="360">
+                    <p slot="header" style="color:#f60;text-align:center">
+                        <Icon type="ios-information-circle"></Icon>
+                        <span>Delete confirmation</span>
+                    </p>
+                    <div style="text-align:center">
+                        <p>{{deleteCustomData.name}} will be deleted</p>
+                        <p>Will you delete it?</p>
+                    </div>
+                    <div slot="footer">
+                        <Button type="error" size="large" long  @click="deleteCustom(deleteCustomData.id)" :loading="customDeleting" :disabled="customDeleting">Delete</Button>
+                    </div>
+                </Modal>
             </div>
         </div>
         <div>
@@ -16,8 +33,9 @@
                     <Input v-model="custom.name" @input="inputEvent()" placeholder="job title" />
                 </FormItem>
 
-                <FormItem label="start_at" prop="start_at">
-                    <Input v-model="custom.start_at"  @input="inputEvent()"  type="date" placeholder="start at" />
+                 <FormItem label="start_at" prop="date">
+
+                    <DatePicker @input="inputEvent()" type="date" placeholder="Select date" v-model="custom.start_at"></DatePicker>
                 </FormItem>
 
                 <FormItem>
@@ -35,6 +53,7 @@
 </template>
 <script>
     import Axios from 'axios'
+    import moment from 'moment'
     export default {
         props:['resumeId','custom'],
     //    components: {
@@ -42,7 +61,10 @@
     //    },
         data () {
             return {
+                customDeleting:false,
+                isDeletedModel:false,
                 addingcustom:false,
+                deleteCustomData: {},
                 customDatas:[],
                 customSending:false,
                 resume:{},
@@ -76,6 +98,10 @@
         methods: {
             inputEvent() {
                 this.customSending = false
+
+                 if(this.custom.start_at) {
+                    this.custom.start_at = moment(String(this.custom.start_at)).format('YYYY-MM-DD')
+                }
             },
             getData() {
                 console.log(this.customs)
@@ -118,6 +144,25 @@
             addCustom() {
                 this.addingcustom = true
             },
+
+            editCustom(id) {
+
+            },
+
+            deleteComfirm(custom) {
+                this.isDeletedModel = true
+                this.deleteCustomData = custom
+            },
+
+          async deleteCustom(id) {
+                console.log(id)
+                  this.customDeleting = true
+                 const { data } = await Axios.delete(`/api/resumes/${this.resumeId}/customs/${id}`);
+                 await this.getResumeData()
+                  this.deleteCustomData={}
+                  this.customDeleting = false
+                  this.isDeletedModel =false
+            }
 
         }
     }

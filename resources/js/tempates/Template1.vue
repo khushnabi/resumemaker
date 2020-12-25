@@ -1,95 +1,128 @@
 <template>
     <div>
         <div>
-           <div>
+            <h1>from templetes show method</h1>
+            <div v-if="inShow">
+                <div v-if="Downloaded">
+                     <router-link  :to="`/resumes/${resume.templete}/${resume.id}/final`"><h1><Icon type="md-close" /></h1></router-link>
+                </div>
+                <div v-else>
+                   <router-link :to="`/resumes/${resume.id}/edit`"><h1><Icon type="md-close" /></h1></router-link>
+                </div>
+            </div>
+            <div v-else>
+                <router-link to="/resumes"><h1><Icon type="md-close" /></h1></router-link>
+                   <div v-if="resume.id">
+                        <router-link  :to="`/resumes/${resume.id}/${resume.templete}/show`">view the resume page</router-link>
+                      
+                   </div>
+            </div>
+          
+              <div>
+                <h1>Resume</h1>
+                <h1 v-if="resume.first_name">first_name: {{resume.first_name}}</h1>
+                <h1 v-if="resume.last_name">Last name : {{resume.last_name}}</h1>
+                <p v-if="resume.address">address: {{resume.address}}</p>
+                <p v-if="resume.city">city: {{resume.city}}</p>
+                <p v-if="resume.postal_code">postal code: {{resume.postal_code}}</p>
+                <p v-if="resume.phone">phone: {{resume.phone}}</p>
+                <p v-if="resume.email"> email: {{resume.email}}</p>
+            </div>
 
-                <div>
-                    <h1>resume</h1>
-                    <h1>first_name: {{resumes.first_name}}</h1>
-                    <h1>Last name : {{resumes.last_name}}</h1>
-                    <p>address: {{resumes.address}}</p>
-                    <p>city: {{resumes.city}}</p>
-                    <p>postal code: {{resumes.postal_code}}</p>
-                    <p>phone: {{resumes.phone}}</p>
-                    <p> email: {{resumes.email}}</p>
-                </div>
-                   
-                <div v-if="resumes.experiences.length>0">
-                        <hr />
-                        <h2>experiance</h2>
-                    <div v-for="(exp, i) in resumes.experiences" :key="i">
-                    <h5> {{exp.job_title}}</h5>
-                        <p> {{exp.employer}}</p>
-                        <p> {{exp.city}}</p>
-                        <p> {{exp.start_at}} {{exp.work_here && "present" || exp.end_at}}</p>
-                        <p>{{exp.description}}</p>
-                        
-                    </div>
-                </div>
-            
-                <div v-if="resumes.educations.length">
-                    <hr>
-                    <h3>educations</h3>
-                    <div v-for="(edu, i) in resumes.educations" :key="i">
-                        <h3>{{edu.school}}</h3>
-                        <p>{{edu.degree}}</p>
-                        <p>{{edu.city}}</p>
-                        <p>{{edu.graduated_at}}</p>
-                        <p>{{edu.description}}</p>
-                            
-                    </div>
+            <div v-if="resume.experiences.length || experianceData.job_title">
+                <hr />
+                <h2>experiance</h2>
+                <div :key="experience.id" v-for="experience in resume.experiences">
+                    <h3> {{experience.job_title}}</h3>
+                    <p> {{experience.employer}}</p>
+                    <p> {{experience.city}}</p>
+                    <p> {{experience.start_at}} - {{ experience.work_here && "present" || experience.end_at}}</p>
+                    <p>{{experience.description}}</p>
                 </div>
                 
-                <div v-if="resumes.skills.length>0">
-                    <hr />
-                    <h4>skills</h4>
-                    <div v-for="(ski, i) in resumes.skills" :key="i">
-                        <h5>{{ski.skill}}</h5>
-                        <p>{{ski.level}}</p>
-                    </div>
-                </div>
-    
-                <div v-if="resumes.summaries.length>0">
-                    <hr />
-                    <h4>summary</h4>
-                    <div v-for="(sum, i) in resumes.summaries" :key="i">
-                        <h3>{{sum.summary}}</h3>
-                    </div>
-                </div>
+                <div>
+                   <h3>{{experianceData.job_title}}</h3>
+                   <p> {{experianceData.employer}} </p>
+                   <p> {{experianceData.city}} </p>
+                   <p> {{experianceData.start_at}} <span v-if="experianceData.end_at">-</span> {{ experianceData.work_here && " - present" ||experianceData.end_at}}</p>
 
-                <div v-if="resumes.customs.length">
-                    <hr />
-                        <h4>Customs</h4>
-                    <div v-for="(custom, i) in resumes.customs" :key="i">
-                        <h3>{{custom.name}}</h3>
-                        <p>{{custom.start_at}}</p>
-                    </div>
+                   <p>{{experianceData.description}}</p>
                 </div>
-                    
+            </div>
+
+            <div v-if="resume.educations.length||educationData.school">
+                <hr>
+                <h3>educations</h3>
+                <div :key="education.id" v-for="education in resume.educations">
+                    <h3>{{education.school}}</h3>
+                    <p>{{education.degree}}</p>
+                    <p>{{education.city}}</p>
+                    <p>{{education.graduated_at}}</p>
+                    <p>{{education.description}}</p>
+                </div>
+                    <h3>{{educationData.school}}</h3>
+                    <p>{{educationData.degree}}</p>
+                    <p>{{educationData.city}}</p>
+                    <p>{{educationData.graduated_at}}</p>
+                    <p>{{educationData.description}}</p>
+            </div>
+            <div v-if="resume.skills.length || skillData.skill">
+                <hr />
+                <h4>skills</h4>
+                <div :key="skill.id" v-for="skill in resume.skills">
+                    <h5>{{skill.skill}}</h5>
+                    <p>{{skill.level}}</p>
+                </div>
+               <h5>{{skillData.skill}}</h5>
+                <p>{{skillData.level}}</p>
+            </div>
+
+            <div v-if="resume.summaries.length || summaryData.summary">
+                <hr />
+                <h4>Summary</h4>
+                <div :key="summary.id" v-for="summary in resume.summaries">
+                    <h3>{{summary.summary}}</h3>
+                </div>
+                <h3>{{summaryData.summary}}</h3>
+            </div>
+            <div v-if="resume.customs.length||customData.name">
+                <hr />
+                <h4>custom</h4>
+                <div :key="field.id" v-for="field in resume.customs">
+                    <h3>{{field.name}}</h3>
+                    <p>{{field.start_at}}</p>
+                </div>
+                <div>
+                    <h3>{{customData.name}}</h3>
+                    <p>{{customData.start_at}}</p>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import Axios from 'axios';
 export default {
+    props: [ "resume", 'experiance','education','skill','summary','custom','inShow','isDownloaded' ],
     data() {
         return {
-            id:this.$route.params.id,
-            resumes:[]
+            experianceData:this.experiance||{},
+            educationData:this.education||{},
+            skillData:this.skill||{},
+            summaryData:this.summary||{},
+            customData:this.custom||{},
+            isGetExpData: {},
+            isShow:this.inShow||false,
+            Downloaded:this.isDownloaded||false,
+        //    experiences: this.resume?.experiences ?? [],
+        //    educations: this.resume?.educations ?? [],
+           fields: [],
+           skills: [],
+           summaries: []
         }
     },
 
-     async mounted() {
-           const { data } = await Axios.get('/api/resumes/'+this.id+'');
-           this.resumes = data;
-            console.log(this.resumes.experiences)
-            console.log(this.resumes.educations)
-            console.log(this.resumes.skills)
-            console.log(this.resumes.summaries)
-            console.log(this.resumes.customs)
-            
-        },
+    methods: {
+    }
 }
 </script>

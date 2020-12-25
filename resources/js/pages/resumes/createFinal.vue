@@ -1,6 +1,6 @@
 <template>
-    <div v-if="isLoading">Please wait while loading</div>
-    <div v-else class="content">
+    <div class="container" v-if="isLoading">Please wait while loading</div>
+    <div v-else class="content container">
         <Breadcrumb :style="{ margin: '4px 0'}">
             <BreadcrumbItem>Heading</BreadcrumbItem>
             <BreadcrumbItem>Experiance</BreadcrumbItem>
@@ -13,10 +13,10 @@
 
         <Row type="flex" :gutter="15">
             <Col span="12">
-                <CreateFinal :experiance="experiance" :education="education" :skill="skill" :custom="custom" :summary="summary"  :resumeId='id' v-on:finalData="finalData($event)"/>
+                <CreateFinal :templete='templete' :experiance="experiance" :education="education" :skill="skill" :custom="custom" :summary="summary"  :resumeId='id' v-on:finalData="finalData($event)"/>
             </Col>
             <Col span="12">
-                <Show :resume="resume"  :experiance="experiance" :education="education" :skill="skill" :custom="custom" :summary="summary" />
+                <Show :templete="templete" :resume="resume" :experiance="experiance" :education="education" :skill="skill" :custom="custom" :summary="summary" />
             </Col>
         </Row>
     </div>
@@ -24,19 +24,33 @@
 <script>
 import Axios from "axios";
 import CreateFinal from "../../components/Finalize.vue"
-import Show from "../../components/showResume";
 export default {
-    components: { CreateFinal, Show },
+    components: { CreateFinal },
     data() {
         return {
+            templete:"",
             isLoading: true,
             resume: {},
             skill:{
                    skill:'',
                     level: ''
             },
-            experiance:{},
-            education:{},
+            experiance:{
+                    job_title: '',
+                    employer: '',
+                    start_at: null,
+                    city: '',
+                    end_at:null,
+                    description: "",
+                    work_here:false
+            },
+            education:{
+                    school: 'dsfsdfs',
+                    degree: 'sdfsd',
+                    city: 'dsfds',
+                    graduated_at: null,
+                    description: "fsdfasdfasf",
+            },
             summary:{},
             custom:{},
             id:null
@@ -44,6 +58,8 @@ export default {
     },
 
     async mounted() {
+        this.templete=this.$route.params.templete;
+
         if(this.$route.params.id) {
             this.id = this.$route.params.id;
             const { data } = await Axios.get(`/api/resumes/${this.id}`);

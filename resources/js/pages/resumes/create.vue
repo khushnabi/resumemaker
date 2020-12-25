@@ -1,15 +1,17 @@
 <template :loading="isLoading">
-    <div v-if="isLoading">Please wait while loading</div>
-    <div v-else class="content">
+    <div class="container" v-if="isLoading">Please wait while loading</div>
+    <div v-else class="content container">
          <Breadcrumb :style="{ margin: '4px 0'}">
             <BreadcrumbItem>Heading</BreadcrumbItem>
         </Breadcrumb>
         <Row type="flex" :gutter="15">
             <Col span="12">
-                <Create :editId='id' :resume="resume" />
+                <Create :templete='template' :editId='id' :resume="resume" />
             </Col>
             <Col span="12">
-                <Show :resume="resume"/>
+
+                
+                <Show :templete='template' :resume='resume' />
             </Col>
         </Row>
     </div>
@@ -17,15 +19,17 @@
 <script>
 import Axios from "axios";
 import Create from "../../components/CreateResume"
-import Show from "../../components/showResume";
 export default {
-    components: { Create, Show },
+    components: { Create },
     data() {
         return {
+
             isLoading: true,
+            template:'',
             resume: {
                 address:"",
                 city: "",
+                templete:'',
                 created_at: "",
                 customs: '',
                 educations: [],
@@ -44,12 +48,22 @@ export default {
     },
 
     async mounted() {
+        console.log("fom create")
+
+
         if(this.$route.params.id) {
-            this.id = this.$route.params.id;
+             this.id = this.$route.params.id;
             const { data } = await Axios.get(`/api/resumes/${this.id}`);
             this.resume = data;
+            this.template = data.templete;
             console.log(this.resume)
             this.isLoading = false;
+
+        } else if(this.$route.params.templete) {
+            this.template=this.$route.params.templete
+            console.log(this.template)
+            this.isLoading = false;
+
         } else {
              this.isLoading = false;
         }
