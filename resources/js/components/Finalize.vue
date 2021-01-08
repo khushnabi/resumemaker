@@ -1,31 +1,112 @@
 <template>
     <div>
-      
-       <div>
+        <div> 
+              <div>
+                 <h4 class="form-header">{{resume.first_name}}</h4>
+                 <br />
+                 <div class="head-line">
+                     <div><Icon size="30" color="#1688fe" type="md-contact" /></div>
+
+                     <div class="second-heading">personal information</div>
+                 </div>
+
+              </div>
+
+              <CreateResume :templete='templete' :isfinal="isfinal" :editId='resumeId' :resume="resume" />
+        </div>
+        <div>
+
+          <div>
+                 <div class="spacer-bottom"></div>
+                 <div class="head-line">
+                     <div>
+                     <Icon size="30" color="#1688fe"  type="md-checkbox-outline" />
+                     </div>
+
+                     <div class="second-heading">Employment History</div>
+                 </div>
+
+              </div>
+
            <Experiance :experiance="experiance" :resumeId="resumeId" v-on:expData="experianceData($event)" ></Experiance>
        </div>
-       <hr />
+
+
        <div>
+            <div>
+                 <div class="spacer-bottom"></div>
+                 <div class="head-line">
+                     <div>
+                         <Icon size="30" color="#1688fe" type="ios-school" />
+                     </div>
+
+                     <div class="second-heading">Education</div>
+                  </div>
+
+            </div>
+
             <Education :education="education" :resumeId="resumeId" v-on:eduData="geteducationData($event)" ></Education>
        </div>
-          <hr />
+
        <div>
+          <div>
+               <div class="spacer-bottom"></div>
+               <div class="head-line">
+                   <div>
+                       <Icon size="30" color="#1688fe" type="md-ribbon"  />
+                   </div>
+
+                   <div class="second-heading">Skills</div>
+                </div>
+
+            </div>
+
+
             <Skill :skill="skill" :resumeId="resumeId" v-on:skillData="skillData($event)" ></Skill>   
        </div>
-           <hr />
        <div>
+
+           <div>
+             <br>
+             <div class="spacer-bottom"></div>
+             <div class="head-line">
+                 <div>
+                     <Icon size="30" color="#1688fe" type="md-clipboard"  />
+                 </div>
+
+                 <div class="second-heading">Professional Summary</div>
+              </div>
+
+          </div>
+
+
            <Summary :summary="summary" :resumeId="resumeId" v-on:summaryData="getSummary($event)" ></Summary> 
        </div>
-        <hr />
        <div>
+
+
+        <div>
+             <br>
+             <div class="spacer-bottom"></div>
+             <div class="head-line">
+
+                 <div class="second-heading">add blocks</div>
+              </div>
+
+          </div>
+
+
+
            <Custom :custom="custom" :resumeId="resumeId" v-on:customData="getCustomData($event)" ></Custom> 
        </div>
 
        <br />
 
-     <router-link :to="`/resumes/${resumeId}/${templete}/download`"><Button type="primary">next to download</Button> </router-link>
-          
+    
 
+       <div class="button-wrap">
+                <router-link :to="`/resumes/${resumeId}/${templete}/download`"><Button type="primary">next to download  <Icon type="md-arrow-round-forward" /></Button></router-link>
+        </div>
        </div>
 </template>
 <script>
@@ -34,6 +115,7 @@
   import html2canvas from 'html2canvas';
     import Axios from 'axios'
     import Education from "./Education.vue";
+    import CreateResume from "./CreateResume.vue"
     import Experiance from "./Experiance.vue";
     import Skill from "./Skill.vue";
     import Summary from "./Summary";
@@ -41,16 +123,18 @@
     import ShowResume from "./showResume"
 
     export default {
-         props:['resumeId','education','experiance','skill','custom','summary','templete'],
+         props:['resumeId','education','experiance','skill','custom','summary','templete', 'resume'],
         components: {
             Education,
             Experiance,
             Skill,
             Summary,
-            Custom
+            Custom,
+            CreateResume
         },
         data () {
             return {
+            isfinal:true,
                notFinalize:false,
                resume:{},
                isGetExpData:[],

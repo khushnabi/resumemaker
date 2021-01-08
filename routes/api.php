@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::resource('resumes', 'ResumeController');
 Route::post('/resumes/upload', 'ResumeController@upload');
 Route::post('/resumes/profile_img', 'ResumeController@deleteImg');
+Route::resource('resumes', 'ResumeController');
+
 Route::resource('resumes.experiences', 'ExperienceController');
 Route::resource('resumes.educations', 'EducationController');
 Route::resource('resumes.skills', 'SkillController');

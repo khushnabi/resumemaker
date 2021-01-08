@@ -2,7 +2,7 @@
     <div>
          <div class="layout">
         <Layout>
-            <Sider breakpoint="md" collapsible :collapsed-width="78">
+            <Sider class="print-hidden" breakpoint="md" collapsible :collapsed-width="78">
                 <Menu active-name="1-2" theme="dark" width="auto">
                     <MenuItem name="1-1">
                         <Icon type="ios-navigate"></Icon>
@@ -19,15 +19,29 @@
                 </Menu>
                 <div slot="trigger"></div>
             </Sider>
-            <Layout :style="{padding:'45px'}">
+           <div class="container">
+                <Layout :style="{padding:'0rem 8rem 3rem 8rem'}">
+                <div>
+                        <div class="print-hidden">
+                            <Button type="primary" @click="download">print</Button>
+                       </div>
+                    </div>
+                <div class="print-hidden" v-if="isDownloaded">
+                     <router-link  :to="`/resumes/${resume.templete}/${resume.id}/final`"><h1><Icon type="md-close" /></h1></router-link>
+                </div>
+                <div class="print-hidden" v-else>
+                   <router-link :to="`/resumes/${resume.id}/edit`"><h1><Icon type="md-close" /></h1></router-link>
+                </div>
 
                 <Content :style="{background: '#fff', minHeight: '220px'}">
+                    
                     <component 
-                          :is='templete' :isDownloaded='isDownloaded' :inShow="inShow" :resume='resume'>
+                          :is='templete' :iconSize="iconSize" :changeTemplete='changeTemplete' :isDownloaded='isDownloaded' :inShow="inShow" :resume='resume'>
                     </component>
                           
                 </Content>
             </Layout>
+           </div>
         </Layout>
     </div>
 
@@ -53,6 +67,7 @@ export default {
     data() {
         return {
             resume:{},
+            changeTemplete:'change-templete',
             inShow:true,
             templete:'',
             selectTemp:true,
@@ -63,6 +78,7 @@ export default {
             customData:[],
             isGetExpData: [],
             isDownloaded:false,
+            iconSize:13,
         //    experiences: this.resume?.experiences ?? [],
         //    educations: this.resume?.educations ?? [],
            fields: [],
@@ -97,8 +113,14 @@ export default {
     },
 
     methods: {
+
+
         selectTemplete(temp) {
             this.templete = temp
+        },
+
+        download() {
+            this.$print(el, option);
         }
     }
 

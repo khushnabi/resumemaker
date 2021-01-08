@@ -9,6 +9,9 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Mada&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+         <link href="/css/app.css" rel="stylesheet">
         <script>
             (function() {
                 window.Laravel = {
@@ -22,6 +25,15 @@
             body {
                 background:#f1f1f1;
                 font-family: 'Mada', sans-serif;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            @media print {
+                .print-hidden {
+                    display: none;
+                }
             }
         </style>
     </head>

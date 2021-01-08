@@ -10,11 +10,18 @@ class ResumeController extends Controller
 {
 
     public function index(Request $request){
-        return Resume::orderBy('id', 'desc')->get();
+        $resume =  Resume::orderBy('id', 'desc')->get();
+        return $resume->load("experiences",'educations',"skills","summaries", "customs");
     }
     public function store(Request $request) {
         return Resume::create($request->all());
     }
+
+      public function show($id) {
+         $resume = Resume::findOrFail($id);
+        return $resume->load("experiences",'educations',"skills","summaries", "customs");
+     }
+     
     public function update(Request $request, $id){
         return Resume::where('id', $id)->update([
             'id'=>$request->id,
@@ -29,10 +36,11 @@ class ResumeController extends Controller
             ]);
      }
 
-     public function show($id) {
-         $resume = Resume::findOrFail($id);
-        return $resume->load("experiences",'educations',"skills","summaries", "customs");
-     }
+     public function destroy($id) {
+        return Resume::findOrFail($id)->delete();
+    }
+
+   
 
      public function delete(Request $request, $id) {
             $fileName = $request->profile_img;
@@ -42,6 +50,8 @@ class ResumeController extends Controller
             };
         return Resume::where('id', $id)->delete();
      }
+
+
 
      public function upload(Request $request) {
         $pickName = time().'.'.$request->file->extension();

@@ -1,14 +1,13 @@
 <template>
     <div>
        
-       <h1>Summary</h1>
         <div  v-if="summariesData.length>0">
             <div v-for="(sum, i) in summariesData" :key="i">
-                {{sum.summary}}
 
-                <Icon size="20" class="edit" type="md-create" @click="editSkill(sum.id)"/>
-
-                <Icon class="delete" size="20" color="red" type="ios-trash" @click="deleteComfirm(sum)" />
+                <div class="show-data">
+                    <p class="link-para"> <span  @click="editSkill(sum.id)" >{{sum.summary}}</span><span>
+                    <Icon class="delete" size="20" color="red" type="ios-trash" @click="deleteComfirm(sum)" /></span></p>
+               </div>
 
                  <Modal v-model="isDeletedModel" width="360">
                     <p slot="header" style="color:#f60;text-align:center">
@@ -26,7 +25,6 @@
             </div>
         </div>
         <div>
-             <Button type="primary" @click="addSummries()"> Add Summary</Button>
         </div>
         <div v-if="addSummary">
           <Icon size="20" @click="closeEdit()" type="md-close" />
@@ -35,12 +33,22 @@
                 <FormItem label="summary" prop="summary">
                     <Input v-model="summary.summary"  @input="inputEvent()" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..." />
                 </FormItem>
-                <Button v-if="summaryEdit" type="primary" :loading="sumarySending" @click="handleSubmit('summary')">Update</Button>
 
-                <Button v-else type="primary" :loading="sumarySending" @click="handleSubmit('summary')">add</Button>
+                <FormItem>
+                    <div class="button-wrap">
+                       <Button v-if="summaryEdit" type="primary" :loading="sumarySending" @click="handleSubmit('summary')">Update</Button>
+
+                        <Button v-else type="primary" :loading="sumarySending" @click="handleSubmit('summary')">add</Button>
+                    </div>
+               
+                </FormItem>
+
+               
             </Form>
         </div>
-
+        <div>
+            <div class="open-form"  @click="addSummries()"><div class="add"><Icon color="#037bf8" size="16" type="md-add" /></div>Add Summary</div>
+        </div>
     </div>
 </template>
 
@@ -133,6 +141,7 @@
           },
 
            async editSkill(id) {
+            this.getResumeData();
                 this.summaryEdit = true
         
                 const { data } = await Axios.get(`/api/resumes/${this.resumeId}/summaries/${id}`);

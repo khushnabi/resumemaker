@@ -2,24 +2,10 @@
     <div>
 
        <div>
-               
-                <Upload
-                    ref="uploads"
-                    :on-success="handleSuccess"
-                    :format="['jpg','jpeg','png']"
-                    :max-size="2048"
-                    :on-format-error="handleFormatError"
-                    :on-exceeded-size="handleMaxSize"
-                    multiple
-                    type="drag"
-                    :headers="{'x-csrf-token':token}"
-                    action="/resume/upload">
-                    <div style="padding: 20px 0">
-                        <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                        <p>Click or drag files here to upload</p>
-                    </div>
-                </Upload>
 
+               
+               <div class="display-flex margin-left-auto ">
+                   
 
                     <div class="demo-upload-list" v-if="resume.profile_img">
                              <img :src="resume.profile_img">
@@ -28,37 +14,88 @@
                             </div>
                     </div>
 
-              <Form ref="resume" :model="resume" :rules="ruleValidate">
-            <FormItem label="first name" prop="first_name">
-                <Input v-model="resume.first_name" @input="inputEvent()" placeholder="first name" />
-            </FormItem>
+                     <Upload
+                        ref="uploads"
+                        :on-success="handleSuccess"
+                        :format="['jpg','jpeg','png']"
+                        :max-size="2048"
+                        :on-format-error="handleFormatError"
+                        :on-exceeded-size="handleMaxSize"
+                        multiple
+                        type="drag"
+                        :headers="{'x-csrf-token':token}"
+                        action="/api/resumes/upload">
+                        <div style="padding: 20px 0">
+                            <Icon type="ios-cloud-upload" size="40" style="color: #3399ff"></Icon>
+                            <!-- <p>Click or drag files here to upload</p> -->
+                        </div>
+                    </Upload>
 
-              <FormItem label="last names" prop="last_name">
-                <Input v-model="resume.last_name"  @input="inputEvent()" placeholder="last name" />
-            </FormItem>
+               </div>
+
+              <Form ref="resume" :model="resume" :rules="ruleValidate">
+                <Row>
+                    <Col span="11"> <FormItem width="50" label="first name" prop="first_name">
+                            <Input v-model="resume.first_name" @input="inputEvent()" placeholder="first name" />
+                        </FormItem>
+                    </Col>
+                    <Col span="2"><div class="space"></div></Col>
+                    <Col span="11">
+                          <FormItem label="last names" prop="last_name">
+                            <Input v-model="resume.last_name"  @input="inputEvent()" placeholder="last name" />
+                        </FormItem>
+                    </Col>
+                </Row>
+           
+
 
               <FormItem label="address" prop="address">
                 <Input v-model="resume.address" placeholder="address" />
             </FormItem>
 
-             <FormItem label="City" prop="city">
-               <Input v-model="resume.city" @input="inputEvent()" placeholder="Enter your city" />
-            </FormItem>
+              <Row>
+                    <Col span="11">
+                       <FormItem label="City" prop="city">
+                           <Input v-model="resume.city" @input="inputEvent()" placeholder="Enter your city" />
+                        </FormItem>
+                    </Col>
+                    <Col span="2"><div class="space"></div></Col>
+                    <Col span="11">
+                          <FormItem label="postalCode" prop="postal_code">
+                               <Input type="number" v-model="resume.postal_code" @input="inputEvent()" placeholder="postal code" />
+                            </FormItem>
+                    </Col>
+                </Row>
 
-            <FormItem label="postalCode" prop="postal_code">
-               <Input type="number" v-model="resume.postal_code" @input="inputEvent()" placeholder="postal code" />
-            </FormItem>
+             <Row>
+                    <Col span="11">
+                        <FormItem label="phone" prop="phone">
+                            <Input type="number" v-model="resume.phone" @input="inputEvent()" placeholder="phone" />
+                        </FormItem>
 
-            <FormItem label="phone" prop="phone">
-                <Input type="number" v-model="resume.phone" @input="inputEvent()" placeholder="phone" />
-            </FormItem>
+                    </Col>
+                    <Col span="2"><div class="space"></div></Col>
+                    <Col span="11">
+                        <FormItem label="E-mail" prop="email">
+                            <Input v-model="resume.email" @input="inputEvent()" placeholder="Enter your e-mail" />
+                        </FormItem>
+                    </Col>
+                </Row>
 
-            <FormItem label="E-mail" prop="email">
-                <Input v-model="resume.email" @input="inputEvent()" placeholder="Enter your e-mail" />
-            </FormItem>
+
+            
+
+           
+
+         
+          
 
             <FormItem>
-                <Button type="primary" :loading="isHeadinSend" @click="handleSubmit('resume')">Next</Button>
+                <div class="button-wrap">
+                <Button v-if="final" type="primary" :loading="isHeadinSend" @click="handleSubmit('resume')">Update </Button>
+                <Button v-else="final" type="primary" :loading="isHeadinSend" @click="handleSubmit('resume')">Next to experiance <Icon type="md-arrow-round-forward" /></Button>
+                </div>
+             
                 <!-- <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button> -->
             </FormItem>
         </Form>
@@ -71,11 +108,12 @@
   
 
     export default {
-        props:['editId', "resume", "templete"],
+        props:['editId', "resume", "templete", 'isfinal'],
         token:"",
        
         data () {
             return {
+                final:this.isfinal||false,
                 notFinalize:true,
                 isHeadinSend:false,
                 resume_data:{},
@@ -133,7 +171,12 @@
                                 const { data } = await Axios.put(`/api/resumes/${this.editId}`, this.resume);
                                 this.resumeId = this.editId;
                                  if(this.resumeId !==null) {
-                                    this.$router.push(`/resumes/${this.templete}/${this.resumeId}/experiance`) 
+                                    if(this.final) {
+                                        console.log('hellow')
+                                    } else {
+                                         this.$router.push(`/resumes/${this.templete}/${this.resumeId}/experiance`) 
+                                    }
+                                   
                                 }
                                 this.$Message.success('updated!');
                                 this.isAddingRsm=false;
@@ -205,10 +248,10 @@
            async handleRemove() {
                let image = this.resume.profile_img;
                this.resume.profile_img = "";
-              const res = await this.resumeApi('post', '/resume/profile_img', {profile_img:image} );
-              if(res.status !=200) {
-                  this.resume.profile_img = image;
-              }
+                const {res} = await Axios.post('/api/resumes/profile_img', this.resume);
+
+                console.log(res)
+                // this.resume.profile_img = image;
             },
 
             async getResume(id) {
@@ -225,46 +268,6 @@
 <style>
 
 
-    .color-white {
-        color:#fff;
-    }
-
-    .demo-upload-list{
-        display: inline-block;
-        width: 60px;
-        height: 60px;
-        text-align: center;
-        line-height: 60px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #fff;
-        position: relative;
-        box-shadow: 0 1px 1px rgba(0,0,0,.2);
-        margin-right: 4px;
-    }
-    .demo-upload-list img{
-        width: 100%;
-        height: 100%;
-    }
-    .demo-upload-list-cover{
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0,0,0,.6);
-    }
-    .demo-upload-list:hover .demo-upload-list-cover{
-        display: block;
-    }
-    .demo-upload-list-cover i{
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-        margin: 0 2px;
-    }
 </style>
 
 

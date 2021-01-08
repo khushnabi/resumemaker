@@ -2,14 +2,22 @@
     <div>
        
 
-       <h1>skill</h1>
 
          <div  v-if="skillData.length>0">
             <div v-for="(skill, i) in skillData" :key="i">
-                {{skill.skill}}
-                 <Icon size="20" class="edit" type="md-create" @click="editSkill(skill.id)"/>
 
-                <Icon class="delete" size="20" color="red" type="ios-trash" @click="deleteComfirm(skill)" />
+                <div class="show-data">
+                    <p class="link-para">
+                      <span  @click="editSkill(skill.id)">
+                       {{skill.skill}} <span v-if="skill.level">{{skill.level}}</span>
+                     </span>
+                      <span><Icon class="delete" size="20" color="red" type="ios-trash" @click="deleteComfirm(skill)" /></span>
+                  </p>
+               </div>
+
+               
+
+               
 
                  <Modal v-model="isDeletedModel" width="360">
                     <p slot="header" style="color:#f60;text-align:center">
@@ -26,32 +34,67 @@
                 </Modal>
             </div>
         </div>
-     
+      
+         <div v-if="skill.skill" class="show-data">
+            <p @click="addSkill=!addSkill" class="link-para"> {{skill.skill}} <span v-if="skill.level">- {{skill.level}}</span> </p>
+             
+        </div>
+
         <div>
-            <Button type="primary" @click="addSkills()" style="margin-left: 8px">add Skill</Button>
        </div>
          <div v-if="addSkill">
 
-          <Icon size="20" @click="closeEdit()" type="md-close" />
+            <div class="close-wrap">
+               <Icon size="20" @click="closeEdit()" type="md-close" />
+              
+            </div>
               <Form ref="skill" :model="skill" :rules="ruleValidate">
-                <FormItem label="skill" prop="skill">
-                    <Input v-model="skill.skill" @input="inputEvent()" placeholder="skill" />
-                </FormItem>
-                <div>
-                      {{skill.level}}
-                </div>
-                <RadioGroup v-model="skill.level" type="button" size="large">
-                    <Radio  @input="inputEvent()" label="novice" ></Radio>
-                    <Radio  @input="inputEvent()" label="beginner"></Radio>
-                    <Radio  @input="inputEvent()" label="skillfull"></Radio>
-                    <Radio  @input="inputEvent()" label="experienced"></Radio>
-                    <Radio  @input="inputEvent()" label="expert"></Radio>
-                </RadioGroup>
+                     <FormItem label="skill" prop="skill">
+                        <Input v-model="skill.skill" @input="inputEvent()" placeholder="skill" />
+                    </FormItem>
 
-                <Button v-if="skillEdit" :loading="skillSending" type="primary" @click="handleSubmit('skill')">Update Skill</Button>
-                <Button v-else :loading="skillSending" type="primary" @click="handleSubmit('skill')">Create Skill</Button>
+
+
+                      <div v-if="skill.level">
+                             <p class="level"> Level- <span :class="skill.level">{{skill.level}}</span></p>
+                              <br />
+                           </div>
+
+                   <FormItem>
+
+                        <RadioGroup v-model="skill.level" type="button" size="large">
+                            <Radio  @input="inputEvent()" label="novice" ></Radio>
+                            <Radio  @input="inputEvent()" label="beginner"></Radio>
+                            <Radio  @input="inputEvent()" label="skillfull"></Radio>
+                            <Radio  @input="inputEvent()" label="experienced"></Radio>
+                            <Radio  @input="inputEvent()" label="expert"></Radio>
+
+                        </RadioGroup>                      
+                  </FormItem>
+
+
+               
+
+                   <FormItem>
+                       <div class="button-wrap">
+                            <Button v-if="skillEdit" :loading="skillSending" type="primary" @click="handleSubmit('skill')">Update </Button>
+
+                           <Button v-else :loading="skillSending" type="primary" @click="handleSubmit('skill')">Create Skill</Button>
+                          <!-- <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button> -->
+                        </div>
+                      
+                  </FormItem>
+
+                      
+
+               
+               
             </Form>
         </div>  
+        <div>
+            <div class="open-form" @click="addSkills()"><div class="add"><Icon color="#037bf8" size="16" type="md-add" /></div>Add Skill</div>
+        </div>
+
 
     </div>
 </template>
@@ -156,13 +199,15 @@
           if(this.editId) {
             await this.getResumeData()
             this.removeData()
+              this.addSkill = false
           }else {
+              this.addSkill = false
               this.removeData()
               await this.getResumeData()
           
           }
            this.editId=null
-            this.addSkill = false
+          
             this.skillEdit = false
             
 
@@ -177,10 +222,10 @@
         },
 
         async editSkill(id) {
-          this.skillEdit = true
-        
-            const { data } = await Axios.get(`/api/resumes/${this.resumeId}/skills/${id}`);
+            await this.getResumeData();
+            this.skillEdit = true
 
+            const { data } = await Axios.get(`/api/resumes/${this.resumeId}/skills/${id}`);
             this.addSkill = true
             this.skill.skill = data.skill;
             this.skill.level=data.level

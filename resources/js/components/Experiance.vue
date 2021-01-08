@@ -1,14 +1,15 @@
 <template>
     <div>
 
-       <h1>Experiance</h1>
         <div v-if="experianceData.length">
             <div v-for="(expData, i) in experianceData" :key="i">
-                {{expData.job_title}}
-                <Icon size="20" class="edit" type="md-create" @click="editExp(expData.id)"/>
-
-                <Icon class="delete" size="20" color="red" type="ios-trash" @click="deleteComfirm(expData)" />
-
+               <div class="show-data">
+                    <p class="link-para"><span  @click="editExp(expData.id)">{{expData.job_title}}</span>
+                     <span><Icon class="delete" size="20" color="red" type="ios-trash" @click="deleteComfirm(expData)" /></span></p>
+               </div>
+        
+              
+              
                  <Modal v-model="isDeletedModel" width="360">
                     <p slot="header" style="color:#f60;text-align:center">
                         <Icon type="ios-information-circle"></Icon>
@@ -25,39 +26,58 @@
             </div>
         </div>
 
-
-        <div>
-            <Button type="primary" @click="addExperiance">Add Experiance</Button>
+         <div v-if="experiance.job_title" class="show-data">
+            <p @click="isAddingExp=!isAddingExp" class="link-para"> {{experiance.job_title}}</p>
+             
         </div>
-        <div v-if="isAddingExp">
 
-        <Icon size="20" @click="closeEdit()" type="md-close" />
-
-               <Form ref="experiance" :model="experiance" :rules="ruleValidate">
-            <FormItem label="job title" prop="job_title">
-                <Input v-model="experiance.job_title" @input="inputEvent()" placeholder="job title" />
-            </FormItem>
-
-              <FormItem label="employer" prop="employer">
-                <Input v-model="experiance.employer" @input="inputEvent()" placeholder=" employer" />
-            </FormItem>
-
-              <FormItem label="city" prop="city">
-                <Input v-model="experiance.city" @input="inputEvent()" placeholder="city" />
-            </FormItem>
+      
+    <div v-if="isAddingExp">
+        <div class="close-wrap">
+               <Icon size="20" @click="closeEdit()" type="md-close" />
+        </div>
+     
 
 
-              <FormItem label="start at" prop="date">
-                 <DatePicker type="date" placeholder="Select date" @input="inputEvent()" v-model="experiance.start_at" />
-            </FormItem>
+      <div>
+            <Form ref="experiance" :model="experiance" :rules="ruleValidate">
+            <Row>
+                <Col span="11">
+                     <FormItem label="job title" prop="job_title">
+                        <Input v-model="experiance.job_title" @input="inputEvent()" placeholder="job title" />
+                    </FormItem>
+                </Col>
+                <Col span="1"><div class="space"></div></Col>
+                <Col span="12">
+                      <FormItem label="employer" prop="employer">
+                        <Input v-model="experiance.employer" @input="inputEvent()" placeholder=" employer" />
+                    </FormItem>
+                </Col>
+            </Row>
+             <Row>
+                <Col span="5">
+                   <FormItem label="start at" prop="date">
+                         <DatePicker type="date" placeholder="Select date" @input="inputEvent()" v-model="experiance.start_at" />
+                    </FormItem>
+                </Col>
+                <Col span="1"><div class="space"></div></Col>
+                  <Col span="5">
+                     <FormItem label="end at" prop="date">
+                         <DatePicker :disabled="experiance.work_here" @input="inputEvent()" type="date" placeholder="Select time" v-model="experiance.end_at"></DatePicker>
+                    </FormItem>
+                </Col>
 
-            <FormItem label="end at" prop="date">
-
-                 <DatePicker :disabled="experiance.work_here" @input="inputEvent()" type="date" placeholder="Select time" v-model="experiance.end_at"></DatePicker>
-            </FormItem>
+                <Col span="1"><div class="space"></div></Col>
+                <Col span="12">
+                    <FormItem label="city" prop="city">
+                        <Input v-model="experiance.city" @input="inputEvent()" placeholder="city" />
+                    </FormItem>
+                </Col>
+            </Row>
+          
 
            <FormItem label="currently work here" prop="work_here">
-                <Checkbox v-model="experiance.work_here" @input="inputEvent()">Checkbox</Checkbox>
+                <Checkbox v-model="experiance.work_here" @input="inputEvent()"></Checkbox>
             </FormItem>
 
              <FormItem label="Desc" >
@@ -65,20 +85,29 @@
             </FormItem>
             <FormItem>
 
-                 <Button v-if="expEdit" type="primary" :loading="expsending" @click="handleSubmit('experiance')">edit experiances</Button>
+              <div class="button-wrap">
+                     <Button v-if="expEdit" type="primary" :loading="expsending" @click="handleSubmit('experiance')">edit experiances</Button>
 
                  <Button v-else type="primary" :loading="expsending" @click="handleSubmit('experiance')">create experiances</Button>
                 <!-- <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button> -->
+              </div>
 
             </FormItem>
         </Form>
+      </div>
+    </div>
+
+   
+        <div>
+            <div class="open-form" @click="addExperiance"><div class="add"><Icon color="#037bf8" size="16" type="md-add" /></div>Add Employment</div>
         </div>
 
+         <div>
+            <p class="small-para">
+                In this section, list related employment experience in your last 10 years along with the dates. Mention the most recent employment first.
+            </p>
+        </div>
 
-
-        <div>
-
-          </div>
     </div>
 </template>
 <script>
@@ -274,7 +303,7 @@
             },
 
            async editExp(id) {
-            
+                this.getResumeData()
                 this.expEdit = true
                 const { data } = await Axios.get(`/api/resumes/${this.resumeId}/experiences/${id}`);
 
@@ -304,13 +333,9 @@
 </script>
 
 <style>
-.edit {
-    cursor:pointer;
-}
 
-.delete {
-    cursor:pointer
-}
+
+
 </style>
 
 

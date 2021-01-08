@@ -1,7 +1,6 @@
 <template>
     <div>
 
-       <h1>custom</h1>
          <div  v-if="customDatas.length>0">
             <div v-for="(custom, i) in customDatas" :key="i">
                 {{custom.name}}
@@ -24,9 +23,7 @@
                 </Modal>
             </div>
         </div>
-        <div>
-            <Button type="primary" @click="addCustom">Add custom</Button>
-        </div>
+      
         <div v-if="addingcustom">
             <Form ref="custom" :model="custom" :rules="ruleValidate">
                 <FormItem label="name" prop="name">
@@ -46,7 +43,10 @@
         
         </div>
    
-        
+        <div>
+            <div class="open-form" @click="addCustom"><div class="add"><Icon color="#037bf8" size="16" type="md-add" /></div>Add custom</div>
+            
+        </div>
 
 
     </div>
@@ -68,6 +68,8 @@
                 customDatas:[],
                 customSending:false,
                 resume:{},
+                customEditing:false,
+                editId:null,
               
                 ruleValidate: {
                     school : [
@@ -145,7 +147,18 @@
                 this.addingcustom = true
             },
 
-            editCustom(id) {
+           async editCustom(id) {
+                 await this.getResumeData();
+                this.customEditing = true
+
+                const { data } = await Axios.get(`/api/resumes/${this.resumeId}/customs/${id}`);
+                this.addingcustom = true
+                this.custom.name= data.customs.name
+
+                this.resume.customs =  this.resume.customs.filter(arr => arr.id !==id)
+                this.editId = id
+
+                this.getData()
 
             },
 

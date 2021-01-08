@@ -2,14 +2,17 @@
     <div>
 
 
-       <h1>Education</h1>
       
         <div  v-if="educationData.length>0">
             <div v-for="(eduData, i) in educationData" :key="i">
-                {{eduData.school}}
-                 <Icon size="20" class="edit" type="md-create" @click="editEdu(eduData.id)"/>
+                    <div class="show-data">
+                        <p class="link-para"><span  @click="editEdu(eduData.id)" > {{eduData.school}}</span>
+                            <span><Icon class="delete" size="20" color="red" type="ios-trash" @click="deleteConfirm(eduData)" /></span>
+                        </p> 
+                   </div>
+                  
 
-                <Icon class="delete" size="20" color="red" type="ios-trash" @click="deleteConfirm(eduData)" />
+
                  <Modal v-model="isDeletedModel" width="360">
                     <p slot="header" style="color:#f60;text-align:center">
                         <Icon type="ios-information-circle"></Icon>
@@ -24,42 +27,60 @@
                     </div>
                 </Modal>
             </div>
+            
         </div>
-     
+
+        <div v-if="education.school" class="show-data">
+            <p @click="isAddingEdu=!isAddingEdu" class="link-para"> {{education.school}}</p>
+             
+        </div>
     
 
-        <div>
-            <Button type="primary" @click="addEducation">Add Education</Button>
-        </div>
+      
         <div v-if="isAddingEdu">
-                    <Icon size="20" @click="closeEdit()" type="md-close" />
+                    <div class="close-wrap">
+                           <Icon size="20" @click="closeEdit()" type="md-close" />
+                    </div>
+                 
 
                <Form ref="education" :model="education" :rules="ruleValidate">
-                <FormItem label="school" prop="school">
-                    <Input v-model="education.school" @input="inputEvent()" placeholder="job title" />
-                </FormItem>
+                <Row>
+                    <Col span="11">
+                          <FormItem label="school" prop="school">
+                            <Input v-model="education.school" @input="inputEvent()" placeholder="job title" />
+                        </FormItem>
+                    </Col>
+                     <Col span="1"><div class="space"></div></Col>
+                     <Col span="12">
+                        <FormItem label="degree" prop="degree">
+                            <Input v-model="education.degree" @input="inputEvent()" placeholder=" employer" />
+                        </FormItem>
+                     </Col>
+                </Row>
 
-                <FormItem label="degree" prop="degree">
-                    <Input v-model="education.degree" @input="inputEvent()" placeholder=" employer" />
-                </FormItem>
-
-                <FormItem label="city" prop="city">
-                    <Input v-model="education.city" @input="inputEvent()" placeholder="city" />
-                </FormItem>
-
-                <FormItem label="graduated_at" prop="date">
-                    <DatePicker type="date" placeholder="Graduated date" @input="inputEvent()" v-model="education.graduated_at" />
-
-                </FormItem>
+               <Row>
+                    <Col span="12">
+                        <FormItem label="graduated_at" prop="date">
+                            <DatePicker type="date" placeholder="Graduated date" @input="inputEvent()" v-model="education.graduated_at" />
+                        </FormItem>
+                     </Col>
+                     <Col span="12">
+                         <FormItem label="city" prop="city">
+                            <Input v-model="education.city" @input="inputEvent()" placeholder="city" />
+                        </FormItem>
+                         
+                     </Col>
+                </Row>
 
                 <FormItem label="Desc" >
                     <Input v-model="education.description" @input="inputEvent()" type="textarea"  :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..." />
                 </FormItem> 
                 <FormItem>
 
-                    <Button v-if="isEditEdu" type="primary" :loading="eduSending" @click="handleSubmit('education')">Update</Button>
-                    <Button v-else type="primary" :loading="eduSending" @click="handleSubmit('education')">create Education</Button>
-                    <!-- <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button> -->
+                    <div class="button-wrap">
+                        <Button v-if="isEditEdu" type="primary" :loading="eduSending" @click="handleSubmit('education')">Update</Button>
+                        <Button v-else type="primary" :loading="eduSending" @click="handleSubmit('education')">create Education</Button>
+                    </div>
                     
                 </FormItem>
             </Form>
@@ -67,7 +88,14 @@
         <div>
             
         </div>
-        
+          <div>
+             <div class="open-form" @click="addEducation"><div class="add"><Icon color="#037bf8" size="16" type="md-add" /></div>Add Education</div>
+             <div>
+            <p class="small-para">
+               In this section, list your level education; include any degrees and educational achievements, if relevant. Include the dates of your achievements.
+            </p>
+        </div>
+        </div>
 
 
     </div>
@@ -197,6 +225,7 @@
 
 
             async editEdu(id) {
+                this.getResumeData()
 
                 this.isEditEdu = true
             

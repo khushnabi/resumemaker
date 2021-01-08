@@ -117,3 +117,10 @@ export default {
     }
 }
 </script>
+
+<style>
+.template2 .sideBar {
+    background-color:blue;
+}
+
+<style>

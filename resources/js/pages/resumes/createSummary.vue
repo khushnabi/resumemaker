@@ -1,24 +1,76 @@
 <template>
-    <div class="container" v-if="isLoading">Please wait while loading</div>
-    <div v-else class="content container">
-        <Breadcrumb :style="{ margin: '4px 0'}">
-            <BreadcrumbItem>Heading</BreadcrumbItem>
-            <BreadcrumbItem>Experiance</BreadcrumbItem>
-            <BreadcrumbItem>Education</BreadcrumbItem>
-            <BreadcrumbItem>Skill</BreadcrumbItem>
-             <BreadcrumbItem>Summary</BreadcrumbItem>
-        </Breadcrumb>
+    <div class="" v-if="isLoading">Please wait while loading</div>
+    <div v-else>
+       
         
-        <router-link  :to="`/resumes/${templete}/${id}/skill`"><Button type="default" style="margin-left: 8px">prev to skill</Button></router-link>
-        <router-link  :to="`/resumes/${templete}/${id}/final`"><Button type="primary" style="margin-left: 8px">next to finalize</Button></router-link>
+       
         <div>
             <Row type="flex" :gutter="15">
                 
-                <Col span="12">
-                    <CreateSummary :summary="summary"  :resumeId='id' v-on:summaryData="summaryData($event)"/>
+                <Col class="form-baground" span="12">
+                    <div class="bred-crumb">
+                        <div class=" bred-text">
+                            <div>
+                                 <div class=" active-text bred-crumb-text">heading</div>
+                                 <div class=" active-line bred-line"></div>
+                            </div>
+                            <div>
+                                 <div class=" active-text bred-crumb-text">experiance</div>
+                                 <div class="bred-line active-line"></div>
+                            </div>
+                             <div>
+                                 <div class="active-text bred-crumb-text">education</div>
+                                 <div class="active-line bred-line"></div>
+                            </div>
+                            <div>
+                                 <div class="active-text bred-crumb-text">skills</div>
+                                 <div class="active-line bred-line"></div>
+                            </div>
+                             <div>
+                                 <div class="active-text bred-crumb-text">summary</div>
+                                 <div class="active-line bred-line"></div>
+                            </div>
+                            <div>
+                                 <div class="bred-crumb-text">finalize</div>
+                                 <div class="bred-line"></div>
+                            </div>
+
+                        </div>
+                      
+                    </div>
+
+                   <div class="formContainer">
+                      <h4 class="form-header"><div> <span class="primary-color">Write down </span> your Professional summary</div></h4>
+                      <p class="form-para">Include up to 3 sentences that describe your general experience</p>
+
+                        <CreateSummary :summary="summary"  :resumeId='id' v-on:summaryData="summaryData($event)"/>
+
+                    <div class="buttons-container">
+
+                         <div>
+                              <router-link  :to="`/resumes/${templete}/${id}/skill`"><button class="back"><Icon size="17" type="md-arrow-round-back" />{{" "}}Back</button></router-link>
+                            </div>
+                            <div>
+                               <router-link  :to="`/resumes/${templete}/${id}/final`"><Button type="primary" style="margin-left: 8px">next to Final<Icon type="md-arrow-round-forward" /></Button></router-link>
+                            </div>
+
+                    </div>
+                   </div>
                 </Col>
-                <Col span="12">
-                    <Show :templete="templete" :resume="resume" :summary="summary" />
+                <Col span="12" class="background-color">
+                     <div v-if="id">
+                      <router-link  :to="`/resumes/${id}/${resume.templete}/show`"><div class="resize"><Icon size="24" color="white" type="ios-resize" /></div></router-link>
+
+
+                    </div>
+                   <div class="close">
+                        <router-link to="/resumes"><h1><Icon type="md-close" color="#434244" /></h1></router-link>
+                         
+                    </div>
+                    <div class="showResumContainer">
+                        <Show :templete="templete" :resume="resume" :summary="summary" />
+                        
+                    </div>
                 </Col>
                  <br/>
            </Row>
