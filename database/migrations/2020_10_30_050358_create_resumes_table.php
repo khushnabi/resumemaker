@@ -19,13 +19,12 @@ class CreateResumesTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string("user_id")->nullable();
-
             $table->string('address');
             $table->string('city');
             $table->string("postal_code");
             $table->string("profile_img")->nullable();
             $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamps();
         });
     }

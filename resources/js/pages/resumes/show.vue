@@ -23,7 +23,7 @@
                 <Layout :style="{padding:'0rem 8rem 3rem 8rem'}">
                 <div>
                         <div class="print-hidden">
-                            <Button type="primary" @click="download">print</Button>
+                            <Button type="primary" @click="print()">print</Button>
                        </div>
                     </div>
                 <div class="print-hidden" v-if="isDownloaded">
@@ -119,8 +119,8 @@ export default {
             this.templete = temp
         },
 
-        download() {
-            this.$print(el, option);
+        print() {
+            print();
         }
     }
 
