@@ -1,4 +1,13 @@
-<template>
+<template :loading="isLoading">
+<div  v-if="isLoading">
+        <div class="demo-spin-container">
+               <Spin  fix>
+                <Icon  type="ios-loading" size=30 class="demo-spin-icon-load"></Icon>
+                <!-- <div style="font-size:30px  "> Loading....</div> -->   
+            </Spin>
+        </div>
+    </div>
+<div v-else>
     <div v-if="hasError" class="container">
         <Alert type="error">
             Something went wrong
@@ -213,7 +222,7 @@
 
                             <p class="created">
                                  <span v-if="resume.created_at">created {{timeFormate(resume.created_at)}}</span>
-                                 <span v-else="resume.updated_at">updated {{timeFormate(resume.updated_at)}}</span>
+                                 <span v-else-if="resume.updated_at">updated {{timeFormate(resume.updated_at)}}</span>
                             </p>
                             <div class="edit">
 
@@ -266,6 +275,9 @@
     </div>
 
    </div>
+</div>
+
+
 </template>
 
 <script>
@@ -278,6 +290,7 @@ export default {
     },
     data () {
         return {
+            isLoading:true,
             hasError: false,
             resumeDatas:{},
             isDeletedModel:false,
@@ -294,6 +307,7 @@ export default {
       
         console.log("hellow from resume")
         await this.getResumeData();
+        
 
     },
     methods: {
@@ -347,6 +361,7 @@ export default {
                 const { data } = await Axios.get("/api/resumes");
                 console.log(data)
                 this.resumeDatas = data;
+                this.isLoading = false
                 
             } catch(err) {
                 this.hasError = true;

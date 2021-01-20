@@ -1,5 +1,13 @@
-<template>
-    <div>
+<template :loading="isLoading">
+    <div  v-if="isLoading">
+        <div class="demo-spin-container">
+               <Spin  fix>
+                <Icon  type="ios-loading" size=30 class="demo-spin-icon-load"></Icon>
+                <!-- <div style="font-size:30px  "> Loading....</div> -->   
+            </Spin>
+        </div>
+    </div>
+    <div v-else>
          <div class="layout">
         <Layout>
             <Sider class="print-hidden" breakpoint="md" collapsible :collapsed-width="48">
@@ -442,6 +450,7 @@ export default {
       },
     data() {
         return {
+            isLoading:true,
             resume:{},
             changeTemplete:'change-templete',
             inShow:true,
@@ -466,14 +475,12 @@ export default {
 
    async mounted() {
             this.id = this.$route.params.id;
-
-
-           
             console.log("hellwo from show methods")
             
             const { data } = await Axios.get(`/api/resumes/${this.id}`);
             this.resume = data;
             this.templete = data.templete
+            this.isLoading = false
             console.log(this.resume)
 
             console.log(this.templete)

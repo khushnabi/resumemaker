@@ -1,5 +1,12 @@
-<template>
-    <div class="" v-if="isLoading">Please wait while loading</div>
+<template  :loading="isLoading">
+    <div  v-if="isLoading">
+        <div class="demo-spin-container">
+               <Spin  fix>
+                <Icon  type="ios-loading" size=30 class="demo-spin-icon-load"></Icon>
+                <!-- <div style="font-size:30px  "> Loading....</div> -->   
+            </Spin>
+        </div>
+    </div>
     <div v-else>
        
         
