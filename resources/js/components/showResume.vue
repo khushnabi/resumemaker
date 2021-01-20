@@ -4,7 +4,6 @@
 
 
         <div v-if="selectTemp" class="container">
-           
                  
                <h4 class="temp-header">select your template</h4>
                 <p class="temp-para">To get started, select a resume template below.</p>
@@ -18,8 +17,6 @@
                 <div class="spacer-temp">
                       
                 </div>
-
-
        
          <Carousel v-model="value1" loop>
 

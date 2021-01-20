@@ -33,6 +33,8 @@
                                 <Card style="width:520px">
                                     
                                  <div class="display-flex">
+                                     <router-link :to="`/resumes/${resume.id}/edit`">
+
                                      <div :class="`${resume.templete} display-flex resumes`">
 
                                         <div class="sideBar">
@@ -203,7 +205,9 @@
 
             </div> 
 
-                    <div>
+                                     </router-link>
+
+                                 <div>
                         <div class="edit-section">
                             <p class="resume-title">{{resume.first_name}}</p>
 

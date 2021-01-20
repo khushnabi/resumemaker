@@ -11,18 +11,24 @@
     },
     "devDependencies": {
         "axios": "^0.21.1",
+        "bootstrap": "^4.0.0",
         "cross-env": "^7.0.3",
+        "jquery": "^3.2",
         "laravel-mix": "^5.0.9",
         "lodash": "^4.17.19",
-        "resolve-url-loader": "^3.1.0",
-        "sass": "^1.30.0",
+        "popper.js": "^1.12",
+        "resolve-url-loader": "^2.3.1",
+        "sass": "^1.20.1",
         "sass-loader": "^8.0.0",
-        "vue-template-compiler": "^2.6.12"
+        "vue": "^2.5.17",
+        "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
         "bootstrap-icons": "^1.2.2",
+        "dependencies": "0.0.1",
         "jspdf": "^2.2.0",
         "moment": "^2.29.1",
+        "peer": "^0.6.1",
         "view-design": "^4.4.0",
         "vue": "^2.6.12",
         "vue-pdf": "^4.2.0",
