@@ -17,6 +17,10 @@ Route::any('{slug}', function() {
     return view('welcome');
 })->where("slug", ".*");
 
+// Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
