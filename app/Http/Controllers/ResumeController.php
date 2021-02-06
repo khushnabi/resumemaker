@@ -66,7 +66,7 @@ class ResumeController extends Controller
         $headers = [
             'Content-Type' => 'application/pdf',
         ];
-        return response()->download($request, 'test.pdf', $headers);
+        // return response()->download($request, 'test.pdf', $headers);
     }
 
     public function deleteImg(Request $request) {
