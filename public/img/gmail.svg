@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.046" height="21.135" viewBox="0 0 28.046 21.135">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ffe479"/>
+      <stop offset="1" stop-color="#f5a623"/>
+    </linearGradient>
+  </defs>
+  <path id="gmail" d="M2.017,21.135a1.967,1.967,0,0,1-1.384-.574l9.921-8.971,3.469,3.2,3.47-3.2,9.915,8.971a1.956,1.956,0,0,1-1.379.574Zm16.347-10.4L28.046,1.85V19.413ZM0,1.855l9.682,8.879L0,19.413ZM.637.577A1.958,1.958,0,0,1,2.017,0H26.029a1.96,1.96,0,0,1,1.383.573L14.023,12.681Z" fill="url(#linear-gradient)"/>
+</svg>

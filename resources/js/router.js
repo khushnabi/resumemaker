@@ -11,13 +11,15 @@ import Summary from "./pages/resumes/createSummary.vue"
 import Final from "./pages/resumes/createFinal"
 import Show from "./pages/resumes/show.vue"
 
+import Templates from "./components/templates";
+
 
 Vue.use(Router);
 const routes = [
     { path: '/resumes', component:Resumes},
     { path: '/resumes/:id/:templete/show', component:Show},
     { path: '/resumes/:id/:templete/download', component:Show},
-    { path: '/resumes/templates', component:showResume},
+    { path: '/resumes/templates', component: Templates},
     { path: '/resumes/:templete/create', component:CreateResume},
     { path: '/resumes/:templete/:id/experiance', component:Experiance },
     { path: '/resumes/:templete/:id/education', component:Education },

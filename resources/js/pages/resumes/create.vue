@@ -3,12 +3,12 @@
         <div class="demo-spin-container">
                <Spin  fix>
                 <Icon  type="ios-loading" size=30 class="demo-spin-icon-load"></Icon>
-                <!-- <div style="font-size:30px  "> Loading....</div> -->   
+                <!-- <div style="font-size:30px  "> Loading....</div> -->
             </Spin>
         </div>
     </div>
     <div v-else>
-        
+
         <Row>
             <Col  class="form-baground" span="12">
                  <div class="overflow">
@@ -41,7 +41,7 @@
                             </div>
 
                         </div>
-                      
+
                     </div>
 
                     <div class="formContainer" >
@@ -62,13 +62,12 @@
                     </div>
                     <div class="close">
                         <router-link to="/resumes"><h1><Icon type="md-close" color="#434244" /></h1></router-link>
-                         
+
                     </div>
                     <div  class="showResumContainer">
                          <Show :templete='template' :resume='resume' />
                     </div>
                </div>
-
             </Col>
         </Row>
     </div>
@@ -105,8 +104,6 @@ export default {
 
     async mounted() {
         console.log("fom create")
-
-
         if(this.$route.params.id) {
              this.id = this.$route.params.id;
             const { data } = await Axios.get(`/api/resumes/${this.id}`);
@@ -123,15 +120,6 @@ export default {
         } else {
              this.isLoading = false;
         }
-       
     }
 }
 </script>
-
-<style>
-
-
-
-  
-
-</style>

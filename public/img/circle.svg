@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="526" height="526" viewBox="0 0 526 526">
+  <defs>
+    <linearGradient id="linear-gradient" y1="0.426" x2="0.979" y2="0.426" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ffe479"/>
+      <stop offset="0.498" stop-color="#fcd15f"/>
+      <stop offset="1" stop-color="#f5a623"/>
+    </linearGradient>
+    <filter id="Oval" x="0" y="0" width="526" height="526" filterUnits="userSpaceOnUse">
+      <feOffset dx="10" dy="10" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-color="#3a178e" flood-opacity="0"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Oval-2" x="75" y="76" width="374" height="374" filterUnits="userSpaceOnUse">
+      <feOffset dx="10" dy="10" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur-2"/>
+      <feFlood flood-color="#3a178e" flood-opacity="0"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Oval-3" x="127" y="127" width="271" height="272" filterUnits="userSpaceOnUse">
+      <feOffset dx="10" dy="10" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur-3"/>
+      <feFlood flood-color="#3a178e" flood-opacity="0"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-4" x1="0.5" y1="0" x2="0.5" y2="1" xlink:href="#linear-gradient"/>
+    <filter id="Oval-4" x="177" y="178" width="171" height="170" filterUnits="userSpaceOnUse">
+      <feOffset dx="10" dy="10" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur-4"/>
+      <feFlood flood-color="#3a178e" flood-opacity="0"/>
+      <feComposite operator="in" in2="blur-4"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group" transform="translate(5.35 5.35)">
+    <g transform="matrix(1, 0, 0, 1, -5.35, -5.35)" filter="url(#Oval)">
+      <circle id="Oval-5" data-name="Oval" cx="248" cy="248" r="248" transform="translate(5 5)" opacity="0.403" fill="url(#linear-gradient)"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -5.35, -5.35)" filter="url(#Oval-2)">
+      <circle id="Oval-6" data-name="Oval" cx="172" cy="172" r="172" transform="translate(80 81)" opacity="0.5" fill="url(#linear-gradient)"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -5.35, -5.35)" filter="url(#Oval-3)">
+      <ellipse id="Oval-7" data-name="Oval" cx="120.5" cy="121" rx="120.5" ry="121" transform="translate(132 132)" opacity="0.3" fill="url(#linear-gradient)"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -5.35, -5.35)" filter="url(#Oval-4)">
+      <ellipse id="Oval-8" data-name="Oval" cx="70.5" cy="70" rx="70.5" ry="70" transform="translate(182 183)" opacity="0.775" fill="url(#linear-gradient-4)"/>
+    </g>
+  </g>
+</svg>
