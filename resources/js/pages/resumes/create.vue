@@ -50,12 +50,11 @@
             <p class="form-para">
               We suggest including an email and phone number
             </p>
-
-            <Create :templete="template" :editId="id" :resume="resume" />
+            <Create :templete="template" :resume="resume" />
           </div>
         </div>
       </Col>
-      <Col span="12" class="background-color">
+      <Col :span="12" class="background-color">
         <div class="overflow">
           <div v-if="id">
             <router-link :to="`/resumes/${id}/${resume.templete}/show`"
@@ -64,12 +63,10 @@
             ></router-link>
           </div>
           <div class="close">
-            <router-link to="/resumes"
-              ><h1><Icon type="md-close" color="#434244" /></h1
-            ></router-link>
+            <router-link to="/resumes"><h1><Icon type="md-close" color="#434244" /></h1></router-link>
           </div>
-          <div class="showResumContainer">
-            <!-- <Show :templete='template' :resume='resume' /> -->
+          <div>
+            <component :is="template" :resume='resume'></component>
           </div>
         </div>
       </Col>
@@ -78,9 +75,10 @@
 </template>
 <script>
 import Axios from "axios";
+import templateList from "../../components/templates/list";
 import Create from "../../components/CreateResume";
 export default {
-  components: { Create },
+  components: { Create, Component: null },
   data() {
     return {
       isLoading: true,
@@ -102,27 +100,45 @@ export default {
         skills: [],
         summaries: [],
         updated_at: "",
-      },
-      id: null,
+      }
     };
   },
 
+  methods: {
+
+  },
+
   async mounted() {
-    console.log("fom create");
+    const template = this.$route.params.templete;
+    if (templateList[template]) {
+        this.template = templateList[template].component;
+    } else {
+        this.template = templateList.default.component;
+    }
+
+    // this.template = template;
     if (this.$route.params.id) {
       this.id = this.$route.params.id;
       const { data } = await Axios.get(`/api/resumes/${this.id}`);
       this.resume = data;
       this.template = data.templete;
-      console.log(this.resume);
       this.isLoading = false;
     } else if (this.$route.params.templete) {
-      this.template = this.$route.params.templete;
-      console.log(this.template);
       this.isLoading = false;
     } else {
-      this.isLoading = false;
+        const { data } = await Axios.get('/api/profile');
+        const [ first_name, ...lastName ] = data.name.split(' ');
+        this.resume = { ...this.resume, ...data, name: undefined, id: undefined, first_name, last_name: lastName.join('') };
+        this.isLoading = false;
     }
   },
 };
 </script>
+
+<style lang="scss" scoped>
+    .close {
+        right: 0;
+        position: absolute;
+        z-index: 100;
+    }
+</style>

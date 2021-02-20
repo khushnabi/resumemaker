@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware(['web', 'auth'])->group(function() {
-    Route::get('/me', function(Request $req) {
-        return $req->user();
-    });
+    Route::get('/profile', 'ProfileController@index');
     Route::post('/resumes/upload', 'ResumeController@upload');
     Route::post('/resumes/profile_img', 'ResumeController@deleteImg');
     Route::resource('resumes', 'ResumeController');
