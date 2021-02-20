@@ -6,7 +6,8 @@
       <div class="display-flex">
         <div class="bold-line"></div>
         <div>
-          <router-link to="/resumes"><h1><Icon type="md-close" color="#434244" /></h1
+          <router-link to="/resumes"
+            ><h1><Icon type="md-close" color="#434244" /></h1
           ></router-link>
         </div>
       </div>

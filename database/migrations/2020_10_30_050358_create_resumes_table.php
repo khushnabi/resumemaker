@@ -15,10 +15,10 @@ class CreateResumesTable extends Migration
     {
         Schema::create('resumes', function (Blueprint $table) {
             $table->id();
-            $table->string('templete');
+            $table->bigInteger("user_id");
+            $table->string('template');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string("user_id")->nullable();
             $table->string('address');
             $table->string('city');
             $table->string("postal_code");
@@ -26,6 +26,10 @@ class CreateResumesTable extends Migration
             $table->string('phone');
             $table->string('email');
             $table->timestamps();
+        });
+        Schema::table('resumes', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('CASCADE')->onUpdate('No Action');
         });
     }
 

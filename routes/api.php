@@ -13,12 +13,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/resumes/upload', 'ResumeController@upload');
-Route::post('/resumes/profile_img', 'ResumeController@deleteImg');
-Route::resource('resumes', 'ResumeController');
-
-Route::resource('resumes.experiences', 'ExperienceController');
-Route::resource('resumes.educations', 'EducationController');
-Route::resource('resumes.skills', 'SkillController');
-Route::resource('resumes.summaries', 'SummaryController');
-Route::resource('/resumes.customs', 'CustomController');
+Route::middleware(['web', 'auth'])->group(function() {
+    Route::get('/me', function(Request $req) {
+        return $req->user();
+    });
+    Route::post('/resumes/upload', 'ResumeController@upload');
+    Route::post('/resumes/profile_img', 'ResumeController@deleteImg');
+    Route::resource('resumes', 'ResumeController');
+    Route::resource('resumes.experiences', 'ExperienceController');
+    Route::resource('resumes.educations', 'EducationController');
+    Route::resource('resumes.skills', 'SkillController');
+    Route::resource('resumes.summaries', 'SummaryController');
+    Route::resource('/resumes.customs', 'CustomController');
+});

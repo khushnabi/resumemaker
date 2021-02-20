@@ -1,6 +1,6 @@
 <template>
     <div class="background-color spacer-padding">
-    <div v-if="selectTemp" class="container">
+    <div v-if="true" class="container">
       <h4 class="temp-header">select your template</h4>
       <p class="temp-para">To get started, select a resume template below.</p>
       <div class="display-flex">
@@ -24,8 +24,13 @@
             </div>
         </CarouselItem>
         <CarouselItem>
-            <div class="display-flex template">
-                <Gratus />
+            <div class="display-flex template" @click="handleChoose">
+                <Gratus  />
+            </div>
+        </CarouselItem>
+         <CarouselItem>
+            <div class="display-flex template" @click="handleChoose">
+                <img src="../../assets/gratus.png" alt="">
             </div>
         </CarouselItem>
       </Carousel>
@@ -49,10 +54,20 @@
 </template>
 <script>
 import Gratus from "./gratus";
+import list from "./list";
+
 export default {
+    data() {
+        return {
+            templates: Object.values(list)
+        };
+    },
     components: { Gratus },
+    mounted() {
+        console.log('Mounted', {gratus})
+    },
     methods: {
-        selectTemp() {
+        handleChoose() {
             alert('Selecting')
         }
     }

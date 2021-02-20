@@ -15,7 +15,7 @@ class CreateExperiencesTable extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
-            $table->string('resume_id');
+            $table->bigInteger('resume_id');
             $table->string('job_title');
             $table->string('employer');
             $table->timestamp("start_at");
@@ -24,6 +24,9 @@ class CreateExperiencesTable extends Migration
             $table->boolean('work_here');
             $table->string('description');
             $table->timestamps();
+            $table->foreign('resume_id')->references('id')->on('resumes')
+                ->onDelete('CASCADE')
+                ->onUpdate('NO ACTION');
         });
     }
 
