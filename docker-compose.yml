@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    volumes:
+      - ./:/app
+    env_file: .env.production
+    ports:
+      - 1221:80
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: imawesome
+      MYSQL_DATABASE: resumemaker
+    volumes:
+      - db:/var/lib/mysql
+  # queue:
+  #     build:
+  #         context: .
+  #         dockerfile: Dockerfile.queue
+  #     volumes:
+  #         - ./:/app
+  #     depends_on:
+  #         - redis
+  #     env_file: .env.production
+  redis:
+    image: redis
+volumes:
+  db:
