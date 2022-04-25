@@ -290,7 +290,7 @@ export default {
     },
     data () {
         return {
-            isLoading:true,
+            isLoading:false,
             hasError: false,
             resumeDatas:{},
             isDeletedModel:false,

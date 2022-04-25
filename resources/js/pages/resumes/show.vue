@@ -418,11 +418,9 @@
                     </div>
                 </div>
                 <Content :style="{background: '#fff', minHeight: '220px'}">
-                    
                     <component 
                           :is='templete' :iconSize="iconSize" :changeTemplete='changeTemplete' :isDownloaded='isDownloaded' :inShow="inShow" :resume='resume'>
                     </component>
-                          
                 </Content>
             </Layout>
            </div>
@@ -503,7 +501,8 @@ export default {
         },
 
         print() {
-            print();
+            setTimeout(() => {WinPrint.focus(); WinPrint.print()}, 200)
+            // print();
         }
     }
 

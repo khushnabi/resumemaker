@@ -14,6 +14,7 @@ import Show from "./pages/resumes/show.vue"
 
 Vue.use(Router);
 const routes = [
+    {path: '/', component:Resumes},
     { path: '/resumes', component:Resumes},
     { path: '/resumes/:id/:templete/show', component:Show},
     { path: '/resumes/:id/:templete/download', component:Show},
