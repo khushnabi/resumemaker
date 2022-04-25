@@ -39,12 +39,12 @@
                 <div class="show-resumes">
                         <div v-for="(resume, i) in resumeDatas" :key="i">
                             <div>
-                                <Card style="width:520px">
+                                <Card style="width:468px">
                                     
                                  <div class="display-flex">
                                      <router-link :to="`/resumes/${resume.id}/edit`">
 
-                                     <div :class="`${resume.templete} display-flex resumes`">
+                                     <div style="width: 252px" :class="`${resume.templete} display-flex resumes`">
 
                                         <div class="sideBar">
 
@@ -290,7 +290,7 @@ export default {
     },
     data () {
         return {
-            isLoading:true,
+            isLoading:false,
             hasError: false,
             resumeDatas:{},
             isDeletedModel:false,
@@ -491,7 +491,7 @@ export default {
 
     .show-resumes > div{
        display: inline-block;
-       margin-left: 1rem;
+  
        margin-top: 1rem;
     }
 
@@ -504,9 +504,10 @@ export default {
 
     .resumes {
                position: relative;
-    height: inherit;
-      min-height: 350.263px;
-    width: 300px;
+         height: inherit;
+         width:281px;
+          min-height: 320.263px;
+    
     background: #fff;
     border-radius: 3px;
     box-shadow: 0px 9px 9px 4px rgb(0 0 0 / 8%);

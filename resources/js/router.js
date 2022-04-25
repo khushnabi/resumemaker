@@ -16,6 +16,7 @@ import Templates from "./components/templates";
 
 Vue.use(Router);
 const routes = [
+    {path: '/', component:Resumes},
     { path: '/resumes', component:Resumes},
     { path: '/resumes/:id/:templete/show', component:Show},
     { path: '/resumes/:id/:templete/download', component:Show},

@@ -7,6 +7,7 @@
                <router-link :to="`/resumes/${resume.id}`">view the resume page</router-link>
            </div>
               <div>
+                  
                 <h1>Resume</h1>
                 <h1 v-if="resume.first_name">first_name: {{resume.first_name}}</h1>
                 <h1 v-if="resume.last_name">Last name : {{resume.last_name}}</h1>
