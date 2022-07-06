@@ -9,7 +9,7 @@ import CreateResume from "./pages/resumes/create.vue";
 import Skill from "./pages/resumes/createSkill.vue"
 import Summary from "./pages/resumes/createSummary.vue"
 import Final from "./pages/resumes/createFinal"
-import Show from "./pages/resumes/show.vue"
+import Show from "./pages/resumes/showFinal.vue"
 
 
 Vue.use(Router);

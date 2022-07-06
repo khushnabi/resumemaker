@@ -1,6 +1,5 @@
 <template>
-    <div :class="`template1 display-flex ${changeTempleteWidth}`">
-
+    <div :class="` ${templete} display-flex ${changeTempleteWidth}`">
             <div class="sideBar">
 
                 <div style=" margin-bottom: 15px;"  v-if="resume.profile_img" class="text-center">
@@ -228,7 +227,7 @@
 
 <script>
 export default {
-    props: [ "resume", 'experiance','education','skill','summary','custom','inShow','changeTemplete','iconSize' ],
+    props: ["templete", "resume", 'experiance','education','skill','summary','custom','inShow','changeTemplete','iconSize' ],
     data() {
         return {
             experianceData:this.experiance||{},

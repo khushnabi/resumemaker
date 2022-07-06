@@ -53,7 +53,7 @@
                                             </div>
 
                                             <div  v-if="resume.summaries.length">
-                                                <h3 class="uppercase text " style="color:#fff;">About me</h3>
+                                                <h3 class="uppercase text " style="color:#fff">About me</h3>
                                                 <div class="little-spacer">
                                                     
                                                 </div>

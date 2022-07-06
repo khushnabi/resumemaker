@@ -11,7 +11,7 @@ import Another from './components/showAnother.vue'
 Vue.component('Show', Show)
 Vue.component('Another', Another)
 
-Vue.prototype.a = '123';Another
+Vue.prototype.a = '123Show';Another
 
 Vue.mixin({
 	data:function() {

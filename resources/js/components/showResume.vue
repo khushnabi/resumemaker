@@ -1,8 +1,6 @@
 <template>
     <div  class="background-color spacer-padding">
 
-
-
         <div v-if="selectTemp" class="container">
                  
                <h4 class="temp-header">select your template</h4>
@@ -22,383 +20,12 @@
 
             <CarouselItem>
                  <div class="display-flex ">
-                     <div class="template1 display-flex resumes" @click="selectTemplete('template1')">
-                       <div class="sideBar">
-
-                        <div style=" margin-bottom: 15px;" class="text-center">
-                            <img class="img" src="/uploads/1609947566.jpeg">
-                        </div>
-
-                        <div>
-                            <h3 class="uppercase text " style="color:#fff;">About me</h3>
-                            <div class="little-spacer">
-                                
-                            </div>
-                             <div>
-                                <p class="summary-para para" style="color:rgb(255 255 255 / 79%); letter-spacing:0.5px" >
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis nostrud exerci
-                                </p>
-                            </div>
-
-                        </div>
-                        
-                    </div>
-
-                    <div class="article">
-
-                        <div class="prifile-section">
-                            <div class="head-section">
-                                <h2 :class="`big-heading`">firstname lastname</h2>
-                            </div>
-
-                            <div>
-
-                                <div class="display-flex">
-                                    <div>
-                                        <div class="icon-round">
-                                            <Icon type="ios-pin" color='white' size="5" />
-                                        </div>
-                                    </div>
-                                    <div class="text-section">
-                                        <p :class="`para `">address, city , postalcode</p>
-                                        
-                                    </div>
-                                </div>
-                                <div class="display-flex">
-                                    <div class="icon-round">
-                                         <Icon size="5"  color='white' type="md-call" />
-                                    </div>
-                                    <div class="text-section">
-                                      <p :class="`para `">phone number</p>
-                                        
-                                    </div>
-                                </div>
-                                  <div class="display-flex">
-                                    <div class="icon-round">
-                                        <Icon  size="5"  color='white' type="ios-mail" />
-                                    </div>
-                                    <div class="text-section">
-                                        <p :class="`para `">your email</p>
-                                        
-                                    </div>
-                                </div>
-                              
-                            </div>
-
-                        </div>
-
-                        <div class="experience">
-                            <div>
-                                <div class="display-flex headline">
-                                    <div class="dot">
-                                    
-                                    </div>
-                                    <div :class="`text `">
-                                       <p> Experiances</p>
-                                    </div>
-                                    <div class="line">
-                                      
-                                    </div>
-                                </div>
-
-                                <div>
-                                    
-                                    <div>
-                                       <div class="display-flex">
-                                            <div class="expLoca">
-                                                <p :class="`title uppercase`">emplyer</p>
-                                                <p :class="`para `">city</p>
-                                                <p :class="`para `"> start_at - end_at</p>
-                                            </div>
-                                            <div class="expJob">
-                                                 <p :class="`title`">job_title</p>
-                                                 <p :class="`para`">description</p>
-                                            </div>
-                                       </div>
-                                        
-                                    </div>
-
-                                </div>
-                           
-                            </div>
-                        </div>
-
-
-                        <div class="education">
-                            <div>
-                                 <div class="display-flex headline">
-                                    <div class="dot">
-                                    
-                                    </div>
-                                    <div :class="`text `">
-                                       <p> Education</p>
-                                    </div>
-                                    <div class="line">
-                                      
-                                    </div>
-                                </div>
-
-                                 <div>
-                                     <div  class="display-flex">
-                                        <div class="eduschool">
-                                            <p :class="`title uppercase`">school</p>
-                                            <p :class="`para `">city</p>
-                                             <p :class="`para `">graduated_at</p>
-                                        </div>
-                                        <div class="eduDegree">
-                                             <p :class="`title ` ">degree</p>
-                                             <p :class="`para `">description</p>
-                                        </div>
-                                     </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="skill">
-                             <div class="display-flex headline">
-                                <div class="dot">
-                                
-                                </div>
-                                <div :class="`text`">
-                                   <p>Skill</p>
-                                </div>
-                                <div class="line">
-                                  
-                                </div>
-                            </div>
-
-                            <div class="progress-container">
-                                <div class="skillData">
-                                    <p class="para  uppercase">skill skillfull </p>
-                                    <div class="progress-bar">
-                                        <div :class="`progress skillfull`"> 
-                                        </div>
-
-                                    </div>
-                                </div>
-                                 <div class="skillData">
-                                    <p class="para  uppercase">skill bignner</p>
-                                    <div class="progress-bar">
-                                        <div :class="`progress beginner`"> 
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                 <div class="skillData">
-                                    <p class="para  uppercase">skill bignner</p>
-                                    <div class="progress-bar">
-                                        <div :class="`progress novice`"> 
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            
-                        </div>
-                   
-                        <div >
-
-                        </div>
-
-                      
-                    </div>
+                     <div @click="selectTemplete('template1')">
+                     <Dummy-text  template="template1" />
 
                      </div>
-             <div class=" margin-left template2 display-flex resumes" @click="selectTemplete('template2')">
-               <div class="sideBar">
-
-                <div style=" margin-bottom: 15px;" class="text-center">
-                    <img class="img" src="/uploads/1609947566.jpeg">
-                </div>
-
-                <div>
-                    <h3 class="uppercase text " style="color:#fff;">About me</h3>
-                    <div class="little-spacer">
-                        
-                    </div>
-                     <div>
-                        <p class="summary-para para" style="color:rgb(255 255 255 / 79%); letter-spacing:0.5px" >
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exerci
-                        </p>
-                    </div>
-
-                </div>
-                
-            </div>
-
-            <div class="article">
-
-                <div class="prifile-section">
-                    <div class="head-section">
-                        <h2 :class="`big-heading`">firstname lastname</h2>
-                    </div>
-
-                    <div>
-
-                        <div class="display-flex">
-                            <div>
-                                <div class="icon-round">
-                                    <Icon type="ios-pin" color='white' size="5" />
-                                </div>
-                            </div>
-                            <div class="text-section">
-                                <p :class="`para `">address, city , postalcode</p>
-                                
-                            </div>
-                        </div>
-                        <div class="display-flex">
-                            <div class="icon-round">
-                                 <Icon size="5"  color='white' type="md-call" />
-                            </div>
-                            <div class="text-section">
-                              <p :class="`para `">phone number</p>
-                                
-                            </div>
-                        </div>
-                          <div class="display-flex">
-                            <div class="icon-round">
-                                <Icon  size="5"  color='white' type="ios-mail" />
-                            </div>
-                            <div class="text-section">
-                                <p :class="`para `">your email</p>
-                                
-                            </div>
-                        </div>
-                      
-                    </div>
-
-                </div>
-
-                <div class="experience">
-                    <div>
-                        <div class="display-flex headline">
-                            <div class="dot">
-                            
-                            </div>
-                            <div :class="`text `">
-                               <p> Experiances</p>
-                            </div>
-                            <div class="line">
-                              
-                            </div>
-                        </div>
-
-                        <div>
-                            
-                            <div>
-                               <div class="display-flex">
-                                    <div class="expLoca">
-                                        <p :class="`title uppercase`">emplyer</p>
-                                        <p :class="`para `">city</p>
-                                        <p :class="`para `"> start_at - end_at</p>
-                                    </div>
-                                    <div class="expJob">
-                                         <p :class="`title`">job_title</p>
-                                         <p :class="`para`">description</p>
-                                    </div>
-                               </div>
-                                
-                            </div>
-
-                        </div>
-                   
-                    </div>
-                </div>
-
-
-                <div class="education">
-                    <div>
-                         <div class="display-flex headline">
-                            <div class="dot">
-                            
-                            </div>
-                            <div :class="`text `">
-                               <p> Education</p>
-                            </div>
-                            <div class="line">
-                              
-                            </div>
-                        </div>
-
-                         <div>
-                             <div  class="display-flex">
-                                <div class="eduschool">
-                                    <p :class="`title uppercase`">school</p>
-                                    <p :class="`para `">city</p>
-                                     <p :class="`para `">graduated_at</p>
-                                </div>
-                                <div class="eduDegree">
-                                     <p :class="`title ` ">degree</p>
-                                     <p :class="`para `">description</p>
-                                </div>
-                             </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="skill">
-                     <div class="display-flex headline">
-                        <div class="dot">
-                        
-                        </div>
-                        <div :class="`text`">
-                           <p>Skill</p>
-                        </div>
-                        <div class="line">
-                          
-                        </div>
-                    </div>
-
-                    <div class="progress-container">
-                        <div class="skillData">
-                            <p class="para  uppercase">skill skillfull </p>
-                            <div class="progress-bar">
-                                <div :class="`progress skillfull`"> 
-                                </div>
-
-                            </div>
-                        </div>
-                         <div class="skillData">
-                            <p class="para  uppercase">skill bignner</p>
-                            <div class="progress-bar">
-                                <div :class="`progress beginner`"> 
-                                </div>
-
-                            </div>
-                        </div>
-
-                         <div class="skillData">
-                            <p class="para  uppercase">skill bignner</p>
-                            <div class="progress-bar">
-                                <div :class="`progress novice`"> 
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    
-                </div>
-           
-                <div >
-
-                </div>
-
-              
-            </div>
-
+             <div class=" margin-left" @click="selectTemplete('template2')">
+             <Dummy-text  template="template2" />
              </div>
                  </div>
             </CarouselItem>
@@ -417,10 +44,10 @@
             
         </div>
         <div>
-            <component 
-                  :is='templete' :resume='resume' :experiance='experianceData':education='educationData'
+            <template1 
+                  :templete='templete' :resume='resume' :experiance='experianceData' :education='educationData'
                   :skill='skillData' :summary="summaryData" :custom="customData">
-            </component>
+            </template1>
         </div>
         
         <!-- <Another
@@ -433,15 +60,14 @@
 
 
 import Template1 from "../tempates/Template1";
-import Template2 from "../tempates/Template2";
+// import Template2 from "../tempates/Template2";
+import DummyText from "../dummy/dummyText.vue"
 export default {
     props: ["resume", 'templete', 'experiance','education','skill','summary','custom'],
     components: {
-      
          'template1':Template1,
-         'template2':Template2
-
-     
+        //  'template2':Template2 , 
+        'Dummy-text':DummyText
 
       },
     data() {

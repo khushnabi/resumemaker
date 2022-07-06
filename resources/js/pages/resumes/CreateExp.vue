@@ -20,7 +20,7 @@
                                      <div class=" active-line bred-line"></div>
                                 </div>
                                 <div>
-                                     <div class=" active-text bred-crumb-text">experiance</div>
+                                     <div class="active-text bred-crumb-text">experience</div>
                                      <div class=" active-line bred-line"></div>
                                 </div>
                                  <div>
